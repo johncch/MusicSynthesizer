@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MusicSynthesizer!</string>
+    <string name="app_name">Music Synthesizer</string>
+    <string name="myTabWidget">Tabs</string>
+    <string name="LFO1">LFO1</string>
+    <string name="LFO2">LFO2</string>
+    <string name="Wave1">Square</string>
+    <string name="Wave2">Triangle</string>
+    <string name="Wave3">Saw</string>
+    <string name="Wave4">Sine</string>
+    <string name="Tone">Tone</string>
+    <string name="Volume">Volume</string>
+    <string name="HPass">HighPass</string>
+    <string name="LPass">LowPass</string>
+    <string name="XSett">X-Options</string>
+    <string name="YSett">Y-Options</string>
+    <string name="ZSett">Z-Options</string>
+    <string name="AttBar">Attack</string>
+    <string name="DecBar">Decay</string>
+    <string name="FreqBar">Decay</string>
+</resources>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/LinearLayout02"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+     <SeekBar 
+     	android:id="@+id/AttBar" 
+     	android:orientation="vertical"
+	 	android:layout_width="wrap_content" 
+	 	android:layout_marginLeft = "10dp"
+	 	android:layout_height="100px"
+	 	android:layout_alignParentLeft = "true"
+	 	android:layout_alignParentTop = "true"
+	 	android:text = "@string/AttBar">
+	 </SeekBar>
+	 <SeekBar 
+	 	android:id="@+id/DecBar" 
+	 	android:orientation="vertical"
+	 	android:layout_width="wrap_content" 
+	 	android:layout_height="100px"
+	 	android:layout_marginLeft = "15dp"
+	 	android:layout_toRightOf="@+id/AttBar"
+	 	android:layout_alignParentTop = "true"
+	 	android:text = "@string/DecBar">
+	 </SeekBar>
+	<RadioGroup
+	   	android:layout_width="wrap_content"
+	   	android:layout_height="wrap_content"
+	   	android:id="@+id/LFOs"
+	   	android:orientation="vertical"
+	   	android:layout_toRightOf="@+id/DecBar"
+	   	android:layout_alignParentTop="true">
+
+ 	 	<RadioButton
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_weight="1"
+	   		android:id="@+id/Wave1" 
+	   		android:text="@string/Wave1"/>
+	   	<RadioButton
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_weight="1"
+	   		android:id="@+id/Wave2"
+	   		android:text="@string/Wave2"/>  	
+	   	<RadioButton
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_weight="1"
+	   		android:id="@+id/Wave3" 
+	   		android:text="@string/Wave3"/>
+	   	<RadioButton
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_weight="1"
+	   		android:id="@+id/Wave4"
+	   		android:text="@string/Wave4"/> 		   	
+	 </RadioGroup>
+</RelativeLayout>

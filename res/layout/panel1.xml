@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/LinearLayout01"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+    
+	<RadioGroup
+	   	android:layout_width="wrap_content"
+	   	android:layout_height="wrap_content"
+	   	android:id="@+id/LFOs"
+	   	android:layout_marginLeft="15dp"
+	   	android:orientation="vertical"
+	   	android:layout_alignParentLeft="true"
+	   	android:layout_alignParentTop="true">
+
+ 	 	<RadioButton
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_weight="1"
+	   		android:id="@+id/LFO1" 
+	   		android:text="@string/LFO1"/>
+	   	<RadioButton
+	   		android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	   		android:layout_weight="1"
+	   		android:id="@+id/LF02"
+	   		android:text="@string/LFO2"/>  			   	
+	 </RadioGroup>
+
+ <SeekBar 
+	 	android:id="@+id/LFO1Bar" 
+	 	android:layout_width="100px" 
+	 	android:layout_marginTop="10dp"
+	 	android:layout_marginLeft="15dp"
+	 	android:layout_height="wrap_content"
+	 	android:layout_toRightOf="@+id/LFOs">
+	 </SeekBar>
+	 <SeekBar 
+	 	android:id="@+id/LFO2Bar" 
+	 	android:layout_width="100px"
+	 	android:layout_marginTop="10dp"
+	 	android:layout_marginLeft="15dp" 
+	 	android:layout_height="wrap_content"
+	 	android:layout_below="@+id/LFO1Bar"
+	 	android:layout_toRightOf="@+id/LFOs">
+	 </SeekBar>
+</RelativeLayout>
