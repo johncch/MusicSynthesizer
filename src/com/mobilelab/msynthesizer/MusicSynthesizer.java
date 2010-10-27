@@ -8,6 +8,9 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ViewFlipper;
+import as.adamsmith.etherealdialpad.dsp.Dac;
+import as.adamsmith.etherealdialpad.dsp.ExpEnv;
+import as.adamsmith.etherealdialpad.dsp.WtOsc;
 
 
 public class MusicSynthesizer extends Activity {
@@ -73,6 +76,10 @@ public class MusicSynthesizer extends Activity {
             	}
             }
         });
+        
+        AudioThread at = new AudioThread();
+    	at.init();
+    	at.start();
 	}
     
     
@@ -102,3 +109,49 @@ public class MusicSynthesizer extends Activity {
     	return outtoLeft;
     }
 }   
+
+/**
+ * This is temporary, will be removed in the future
+ * 
+ * @author johncch
+ *
+ */
+class AudioThread extends Thread {
+	Dac ugDac;
+	
+	public void init() {
+		WtOsc ugOscA1 = new WtOsc();
+		WtOsc ugOscA2 = new WtOsc();
+		ExpEnv ugEnvA = new ExpEnv();
+		
+		ugOscA1.fillWithHardSin(70.0f);
+		ugOscA2.fillWithHardSin(20.0f);
+		
+		ugDac = new Dac();
+	
+		/* Delay ugDelay = new Delay(UGen.SAMPLE_RATE/2);
+		
+		ugEnvA.chuck(ugDelay);
+		ugDelay.chuck(ugDac);
+		
+		ugOscA1.chuck(ugEnvA);
+		ugOscA2.chuck(ugEnvA);
+		
+		ugEnvA.setFactor(ExpEnv.hardFactor);*/
+		
+		ugOscA1.chuck(ugDac);
+		ugOscA2.chuck(ugDac);
+		
+		ugOscA1.setFreq(440.0f);
+		ugOscA2.setFreq(1200.0f);
+	}				
+	
+	@Override
+	public void run() {
+		ugDac.open();
+		while(!isInterrupted()) {
+			ugDac.tick();
+		}
+		ugDac.close();
+	}
+}
