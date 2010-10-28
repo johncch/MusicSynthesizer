@@ -46,7 +46,6 @@ public class Dac extends UGen {
 	}
 	
 	public void tick() {
-		//Log.d("Inside DAC", "Ticking");
 		render(localBuffer);
 		
 		if(isClean) {

@@ -27,7 +27,7 @@
 	<RadioGroup
 	   	android:layout_width="wrap_content"
 	   	android:layout_height="wrap_content"
-	   	android:id="@+id/LFOs"
+	   	android:id="@+id/WaveForms"
 	   	android:orientation="vertical"
 	   	android:layout_toRightOf="@+id/DecBar"
 	   	android:layout_alignParentTop="true">
@@ -36,25 +36,26 @@
 	   		android:layout_width="wrap_content"
 	   		android:layout_height="wrap_content"
 	   		android:layout_weight="1"
-	   		android:id="@+id/Wave1" 
+	   		android:id="@+id/SquareWave" 
 	   		android:text="@string/Wave1"/>
 	   	<RadioButton
 	   		android:layout_width="wrap_content"
 	   		android:layout_height="wrap_content"
 	   		android:layout_weight="1"
-	   		android:id="@+id/Wave2"
+	   		android:id="@+id/TriangleWave"
 	   		android:text="@string/Wave2"/>  	
 	   	<RadioButton
 	   		android:layout_width="wrap_content"
 	   		android:layout_height="wrap_content"
 	   		android:layout_weight="1"
-	   		android:id="@+id/Wave3" 
+	   		android:id="@+id/SawWave" 
 	   		android:text="@string/Wave3"/>
 	   	<RadioButton
 	   		android:layout_width="wrap_content"
 	   		android:layout_height="wrap_content"
 	   		android:layout_weight="1"
-	   		android:id="@+id/Wave4"
-	   		android:text="@string/Wave4"/> 		   	
+	   		android:id="@+id/SineWave"
+	   		android:text="@string/Wave4"
+	   		android:checked="true"/> 		   	
 	 </RadioGroup>
 </RelativeLayout>

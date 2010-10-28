@@ -2,11 +2,18 @@ package as.adamsmith.etherealdialpad.dsp;
 
 import java.util.ArrayList;
 
+/**
+ * Based largely off http://gist.github.com/376028
+ * 
+ * A Unit generator
+ * 
+ * @author rndmcnlly
+ * @author johncch
+ */
 public abstract class UGen {
 	public static final int CHUNK_SIZE = 256;
 	public static final int SAMPLE_RATE = 22050;
-	
-	
+
 	ArrayList<UGen> kids = new ArrayList<UGen>(0);
 	
 	// fill CHUNK_SIZE samples
