@@ -14,7 +14,6 @@ public class SynthManager {
 	
 	private int currentWaveShape = 25;
 	
-	// private ArrayList<UGen> pipeline = new ArrayList<UGen>();
 	WtOsc oscillator;
 	Dac dac;
 	
@@ -49,7 +48,7 @@ public class SynthManager {
 			oscillator.fillWithSin();
 			break;
 		case TRIANGLE_WAVE:
-			oscillator.fillWithSqr();
+			oscillator.fillWithTri();
 			break;
 		case SQUARE_WAVE:
 			oscillator.fillWithSqr();

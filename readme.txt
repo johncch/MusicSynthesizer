@@ -15,3 +15,4 @@ the design of this software is modular, and hence features can be slowly added a
 and iron out more bugs. 
 
 5. Authors: Veronica Borges (vborges), Pablo Bariola (pbariola), Chong Han Chua (chuachoh).
+The source code is available at http://github.com/johncch/MusicSynthesizer

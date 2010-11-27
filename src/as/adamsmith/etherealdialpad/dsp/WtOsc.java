@@ -23,6 +23,7 @@ public class WtOsc extends UGen {
 	
 	public WtOsc () {
 		table = new float[ENTRIES];
+		Log.i("Information", "Entries length is " + ENTRIES);
 	}
 	
 	public synchronized void setFreq(float freq) {
@@ -31,11 +32,13 @@ public class WtOsc extends UGen {
 	
 	public synchronized boolean render(final float[] buffer) { // assume t is in 0.0 to 1.0
 		for(int i = 0; i < CHUNK_SIZE; i++) {
-			float scaled = phase*ENTRIES;
+			float scaled = phase * ENTRIES;
 			final float fraction = scaled-(int)scaled;
 			final int index = (int)scaled;
-			buffer[i] += (1.0f-fraction)*table[index&MASK]+fraction*table[(index+1)&MASK];
+			// Log.i("INFORENDER", scaled + ", " + fraction + ", " + index + ": " + (index & MASK) + "::" + ((index + 1) & MASK));
+			buffer[i] += (1.0f-fraction) * table[index&MASK] + fraction * table[(index+1)&MASK];
 			phase = (phase+cyclesPerSample) - (int)phase;
+			// Log.i("INFORENDER", "phase is " + phase);
 		}
 		
 		return true;
@@ -66,8 +69,14 @@ public class WtOsc extends UGen {
 	
 	public WtOsc fillWithSqr() {
 		for(int i = 0; i < ENTRIES; i++) {
-			table[i] = (i < ENTRIES/2) ? 1f : -1f;
+			table[i] = (i < ENTRIES/2) ? 0.99f : -0.99f;
 		}
+		StringBuffer buf = new StringBuffer();
+		for(int i = 0; i < ENTRIES; i++) {
+			buf.append(table[i]);
+			buf.append(",");
+		}
+		Log.i("SQUARE", "table=" + buf.toString());
 		return this;
 	}
 	
@@ -87,15 +96,23 @@ public class WtOsc extends UGen {
 	}
 	
 	public WtOsc fillWithTri() {
-		float dt = (float)(4.0 / ENTRIES);
+		Log.i("TESTTEST", "TESTTEST");
+		float dt = 4.0f / ENTRIES;
 		int direction = 1;
 		float sum = 0f;
 		for(int i = 0; i < ENTRIES; i++) {
-			table[i] += direction * dt;
-			if(table[i] >= 1.0f || table[i] <= -1.0f) {
-				direction = -1 * direction;
+			if(i < ENTRIES / 2) {
+				table[i] = 1.0f - i * dt;
+			} else {
+				table[i] = -3.0f + i*dt;
 			}
 		}
+		StringBuffer buf = new StringBuffer();
+		for(int i = 0; i < ENTRIES; i++) {
+			buf.append(table[i]);
+			buf.append(",");
+		}
+		Log.i("TRIANGLE", "table=" + buf.toString());
 		return this;
 	}
 }
