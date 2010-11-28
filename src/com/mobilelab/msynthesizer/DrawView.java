@@ -12,9 +12,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.ImageView;
 
 // DrawView is a view. It listens to mouse click events and draws a point at the point that it was clicked on.
-public class DrawView extends View implements OnTouchListener {
+public class DrawView extends ImageView implements OnTouchListener {
      List<Point> points = new ArrayList<Point>();
      Paint paint = new Paint();
      
@@ -25,7 +26,7 @@ public class DrawView extends View implements OnTouchListener {
 	     this.setOnTouchListener(this);
 	     paint.setColor(Color.WHITE);
 	     paint.setAntiAlias(true);
-	     this.setBackgroundColor(Color.GRAY);
+	    // this.setBackgroundColor(Color.GRAY);
      }
 
 	 @Override

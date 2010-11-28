@@ -1,7 +1,6 @@
 package com.mobilelab.msynthesizer;
 
 import com.mobilelab.synth.SynthManager;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,7 @@ import android.view.View.OnTouchListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -48,10 +47,10 @@ public class MusicSynthesizer extends Activity implements OnTouchListener, OnChe
         sinBtn = (RadioButton) this.findViewById(R.id.SineWave);        
         
         /*create buttons for switching between option panels*/
-        Button button1 = (Button) findViewById(R.id.panel1B);
-        Button button2 = (Button) findViewById(R.id.panel2B);
-        Button button3 = (Button) findViewById(R.id.panel3B);
-        Button button4 = (Button) findViewById(R.id.panel4B);
+        ImageButton button1 = (ImageButton) findViewById(R.id.panel1B);
+        ImageButton button2 = (ImageButton) findViewById(R.id.panel2B);
+        ImageButton button3 = (ImageButton) findViewById(R.id.panel3B);
+        //ImageButton button4 = (ImageButton) findViewById(R.id.panel4B);
 
         /* if button1 is pressed, display 1st panel*/
         button1.setOnClickListener(new View.OnClickListener() {
@@ -88,17 +87,17 @@ public class MusicSynthesizer extends Activity implements OnTouchListener, OnChe
             }
         });
         
-        /* if button4 is pressed, display 4th panel*/
+    /*     if button4 is pressed, display 4th panel
         button4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-            	/*only do animation if panel isn't currently displayed*/
+            	only do animation if panel isn't currently displayed
             	if (flipper.getDisplayedChild() != 3){
                 flipper.setInAnimation(inFromRightAnimation());
                 //flipper.setOutAnimation(outToLeftAnimation());
                 flipper.setDisplayedChild(3); 
             	}
             }
-        });
+        });*/
         
         sm = new SynthManager();
 	}
@@ -130,32 +129,34 @@ public class MusicSynthesizer extends Activity implements OnTouchListener, OnChe
     	return outtoLeft;
     }
 
-	@Override
+	//@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		int action = event.getAction();
 		dumpEvent(event);		
-		if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
+		if (action == MotionEvent.ACTION_DOWN) {
 			float f = 400 + event.getY() * 4;
 			Log.d("MS", "playing.." + f);
-			sm.play(f);
+			
+		} else if (action == MotionEvent.ACTION_MOVE) {
+			
 		} else {
-			sm.stop();
+			
 		}
 		
 		return true;
 	}
 	
-	@Override
+	//@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		if(group.getId() == waveGroup.getId()) {
 			if(checkedId == sqrBtn.getId()) {
-				sm.setCurrentWaveShape(sm.SQUARE_WAVE);
+				sm.setCurrentWaveShape(SynthManager.SQUARE_WAVE);
 			} else if (checkedId == triBtn.getId()) {
-				sm.setCurrentWaveShape(sm.TRIANGLE_WAVE);
+				sm.setCurrentWaveShape(SynthManager.TRIANGLE_WAVE);
 			} else if (checkedId == sawBtn.getId()) {
-				sm.setCurrentWaveShape(sm.SAW_WAVE);
+				sm.setCurrentWaveShape(SynthManager.SAW_WAVE);
 			} else {
-				sm.setCurrentWaveShape(sm.SINE_WAVE);
+				sm.setCurrentWaveShape(SynthManager.SINE_WAVE);
 			}
 		}
 	}

@@ -1,8 +1,17 @@
 package com.mobilelab.synth;
 
+import java.util.ArrayList;
+
+import com.fifthrevision.sound.Osc;
+import com.fifthrevision.sound.Unit;
+
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
 import android.util.Log;
 import as.adamsmith.etherealdialpad.dsp.Dac;
 import as.adamsmith.etherealdialpad.dsp.ExpEnv;
+import as.adamsmith.etherealdialpad.dsp.UGen;
 import as.adamsmith.etherealdialpad.dsp.WtOsc;
 
 public class SynthManager {
@@ -13,78 +22,148 @@ public class SynthManager {
 	public static final int SAW_WAVE = 28;
 	
 	private int currentWaveShape = 25;
+
+	private ArrayList<Osc> oscillators = new ArrayList<Osc>();
 	
-	WtOsc oscillator;
-	Dac dac;
-	
-	SynthesizerRunner run = new SynthesizerRunner();
+	private SynthesizerRunner runner = new SynthesizerRunner();
 	
 	public SynthManager(){
-		dac = new Dac();
-		oscillator = new WtOsc();
-		oscillator.chuck(dac);
-		run.setDac(dac);
-		Thread thread = new Thread(run);
+		Thread thread = new Thread(runner);
 		thread.start();
 	}
 	
 	public void setCurrentWaveShape(int waveShape) {
 		if(waveShape >= SINE_WAVE && waveShape <= SAW_WAVE) {
 			this.currentWaveShape = waveShape;
+			this.setWave();
 		}
 	}
 	
-	public void play(float freq) {
-		if(run.stopped) {
+	public void addSoundSource(int id) {
+		if ( oscillators.size() < (id + 1) ) {
+			for(int i = oscillators.size(); i < (id + 1); i++){
+				oscillators.add(new Osc());
+			}
 			this.setWave();
-			run.stopped = false;
 		}
-		oscillator.setFreq(freq);
+		Osc osc = oscillators.get(id);
+		runner.addIntoOscillators(osc);
+	}
+	
+	public void removeSoundSource(int id) {
+		Osc osc = oscillators.get(id);
+		runner.removeFromOscillators(osc);
 	}
 	
 	private void setWave() {
 		switch(this.currentWaveShape) {
-		case SINE_WAVE:
-			oscillator.fillWithSin();
-			break;
-		case TRIANGLE_WAVE:
-			oscillator.fillWithTri();
-			break;
-		case SQUARE_WAVE:
-			oscillator.fillWithSqr();
-			break;
-		case SAW_WAVE:
-			oscillator.fillWithSaw();
-			break;
+			case SINE_WAVE:
+				for(int i = 0; i < oscillators.size(); i++) {
+					oscillators.get(i).fillWithSin();
+				}
+				break;
+			case TRIANGLE_WAVE:
+				for(int i = 0; i < oscillators.size(); i++) {
+					oscillators.get(i).fillWithTri();
+				}
+				break;
+			case SQUARE_WAVE:
+				for(int i = 0; i < oscillators.size(); i++) {
+					oscillators.get(i).fillWithSqr();
+				}
+				break;
+			case SAW_WAVE:
+				for(int i = 0; i < oscillators.size(); i++) {
+					oscillators.get(i).fillWithSaw();
+				}
+				break;
 		}
-	}
-	
-	public void stop() {
-		oscillator.fillWithZero();
-		run.stopped = true;
 	}
 	
 }
 
 class SynthesizerRunner implements Runnable {
-
-	public boolean stopped = true;
-	private Dac dac;
 	
-	public void setDac(Dac dac) {
-		this.dac = dac;
+	private final float[] localBuffer;
+	private final AudioTrack track;
+	private final short [] target = new short[UGen.CHUNK_SIZE];
+	private final short [] silentTarget = new short[UGen.CHUNK_SIZE];
+	
+	private ArrayList<Unit> pipeline = new ArrayList<Unit>();
+	private ArrayList<Unit> oscillators = new ArrayList<Unit>(); 
+	
+	public boolean running = true;
+	
+	public SynthesizerRunner() {
+		localBuffer = new float[Unit.CHUNK_SIZE];
+		
+		int minSize = AudioTrack.getMinBufferSize(
+				UGen.SAMPLE_RATE,
+				AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        		AudioFormat.ENCODING_PCM_16BIT);
+		
+		track = new AudioTrack(
+        		AudioManager.STREAM_MUSIC,
+        		UGen.SAMPLE_RATE,
+        		AudioFormat.CHANNEL_CONFIGURATION_MONO,
+        		AudioFormat.ENCODING_PCM_16BIT,
+        		Math.max(UGen.CHUNK_SIZE*4, minSize),
+        		AudioTrack.MODE_STREAM);
 	}
 	
-	@Override
-	public void run() {
-		dac.open();
-		while(true) {
-			dac.tick();
+	public synchronized void addIntoOscillators(Unit unit) {
+		oscillators.add(unit);
+	}
+	
+	public synchronized void removeFromOscillators(Unit unit) {
+		if(oscillators.contains(unit)) {
+			oscillators.remove(unit);
 		}
 	}
-
+	
+	public synchronized void addIntoPipeline(Unit unit) {
+		pipeline.add(unit);
+	}
+	
+	public synchronized void removeFromPipeline(Unit unit) {
+		if(pipeline.contains(unit)) {
+			pipeline.remove(unit);
+		}
+	}
+	
+	/**
+	 * Pipeline rendering
+	 */
+	//@Override
+	public void run() {
+		
+		while(running) {
+			synchronized(this) {
+				if(oscillators.size() == 0) {
+					track.write(silentTarget, 0, silentTarget.length);
+				} else {
+					zeroBuffer(localBuffer);
+					
+					for(int i = 0; i < oscillators.size(); i++) {
+						oscillators.get(i).render(localBuffer);
+					}
+					
+					for(int i = 0; i < Unit.CHUNK_SIZE; i++) {
+						target[i] = (short)(32768.0f*localBuffer[i]);
+					}
+					
+					track.write(target, 0, target.length);
+				}
+			}
+		}
+	}
+	
+	protected void zeroBuffer(final float[] buffer) {
+		for(int i = 0; i < Unit.CHUNK_SIZE; i++) {
+			buffer[i] = 0;
+		}
+	}
 }
-
 
 /**
  * This is temporary, will be removed in the future
