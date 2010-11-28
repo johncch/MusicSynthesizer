@@ -75,7 +75,7 @@ class SynthesizerRunner implements Runnable {
 		this.dac = dac;
 	}
 	
-	@Override
+	//@Override
 	public void run() {
 		dac.open();
 		while(true) {
