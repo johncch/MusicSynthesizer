@@ -40,7 +40,7 @@ public class Osc extends Unit {
 			final float fraction = scaled-(int)scaled;
 			final int index = (int)scaled;
 			buffer[i] += (1.0f-fraction) * table[index&MASK] + fraction * table[(index+1)&MASK];
-			phase = (phase + cyclesPerSample + inputWave[i]) - (int)phase;
+			phase = (phase + cyclesPerSample) - (int)phase + inputWave[i] * 5.0f;
 		}	
 		return this;
 	}
