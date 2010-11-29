@@ -2,6 +2,8 @@ package com.mobilelab.synth;
 
 import java.util.ArrayList;
 
+import com.fifthrevision.sound.AmpMod;
+import com.fifthrevision.sound.LowPassSP;
 import com.fifthrevision.sound.Osc;
 import com.fifthrevision.sound.Unit;
 
@@ -30,6 +32,11 @@ public class SynthManager {
 	private SynthesizerRunner runner = new SynthesizerRunner();
 	
 	public SynthManager(){
+		
+		//Test
+		// runner.addIntoPipeline(new AmpMod().setFreq(100));
+		runner.addIntoPipeline(new LowPassSP().setFreq(400));
+		
 		Thread thread = new Thread(runner);
 		thread.start();
 	}
@@ -42,6 +49,7 @@ public class SynthManager {
 	}
 	
 	public void setSoundSourceFreq(int id, float freq) {
+		Log.d(TAG, "Setting frequency " + freq);
 		this.oscillators.get(id).setFreq(freq);
 	}
 	
@@ -156,9 +164,7 @@ class SynthesizerRunner implements Runnable {
 		
 		while(running) {
 			//synchronized(this) {
-				// Log.d(TAG, "OSCILLATOR SIZE IS " + oscillators.size());
 				if(oscillators.size() == 0) {
-					// Log.d("OSCILLATOR", "Writing Silence");
 					track.write(silentTarget, 0, silentTarget.length);
 				} else {
 					//Log.d("OSCILLATOR", "Writing data");
@@ -167,6 +173,10 @@ class SynthesizerRunner implements Runnable {
 					synchronized(this) {
 						for(int i = 0; i < oscillators.size(); i++) {
 							oscillators.get(i).render(localBuffer);
+						}
+						
+						for(int i = 0; i < pipeline.size(); i++) {
+							pipeline.get(i).render(localBuffer);
 						}
 					}
 					

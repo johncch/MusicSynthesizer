@@ -17,8 +17,20 @@ public class Osc extends Unit {
 		table = new float[ENTRIES];
 	}
 	
-	public synchronized void setFreq(float freq) {
+	public Unit setFreq(float freq) {
 		cyclesPerSample = freq/SAMPLE_RATE;
+		return this;
+	}
+	
+	private float[] inputWave;
+	
+	/**
+	 * Not sure if this is the best way to do it
+	 * 
+	 * @param buffer
+	 */
+	public void setInputWave(float[] inputWave) {
+		this.inputWave = inputWave;
 	}
 	
 	public void render(final float[] buffer) {
@@ -53,12 +65,7 @@ public class Osc extends Unit {
 	
 	public void fillWithSqr() {
 		for(int i = 0; i < ENTRIES; i++) {
-			table[i] = (i < ENTRIES/2) ? 0.99f : -0.99f;
-		}
-		StringBuffer buf = new StringBuffer();
-		for(int i = 0; i < ENTRIES; i++) {
-			buf.append(table[i]);
-			buf.append(",");
+			table[i] = (i < ENTRIES/2) ? 1f : -1f;
 		}
 	}
 	
