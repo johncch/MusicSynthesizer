@@ -18,6 +18,8 @@ import android.widget.ViewFlipper;
 
 public class MusicSynthesizer extends Activity implements OnTouchListener, OnCheckedChangeListener {
 	
+	public static String Tag = "MUSIC_SYNTHESIZER";
+	
 	private ViewFlipper flipper;
 	private DrawView drawView;
 	
@@ -132,15 +134,44 @@ public class MusicSynthesizer extends Activity implements OnTouchListener, OnChe
 	//@Override
 	public boolean onTouch(View view, MotionEvent event) {
 		int action = event.getAction();
-		dumpEvent(event);		
-		if (action == MotionEvent.ACTION_DOWN) {
-			float f = 400 + event.getY() * 4;
-			Log.d("MS", "playing.." + f);
-			
-		} else if (action == MotionEvent.ACTION_MOVE) {
-			
-		} else {
-			
+		int actionCode = action & MotionEvent.ACTION_MASK;
+		dumpEvent(event);
+		int id = 0;
+		/* if(actionCode == MotionEvent.ACTION_POINTER_DOWN) {
+			id = action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
+			Log.d(Tag, "Adding Pointer " + id);
+			sm.addSoundSource(id);
+		} else if (actionCode == MotionEvent.ACTION_POINTER_UP) {
+			id = action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
+			sm.removeSoundSource(id);
+		}*/
+		
+		switch(actionCode) {
+		case MotionEvent.ACTION_DOWN:
+			id = event.getPointerId(0);
+			sm.addSoundSource(id);
+			break;
+		case MotionEvent.ACTION_POINTER_DOWN:
+			id = action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
+			Log.d(Tag, "Adding Pointer " + id);
+			sm.addSoundSource(id);
+			break;
+		case MotionEvent.ACTION_MOVE:
+			Log.d(Tag, "Action Move");
+			for(int i = 0; i < event.getPointerCount(); i++) {
+				id = event.getPointerId(i);
+				float freq = 400 + event.getY(i) * 4;
+				sm.setSoundSourceFreq(id, freq);
+			}
+			break;
+		case MotionEvent.ACTION_UP:
+			id = event.getPointerId(0);
+			sm.removeSoundSource(id);
+			break;
+		case MotionEvent.ACTION_POINTER_UP:
+			id = action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
+			sm.removeSoundSource(id);
+			break;
 		}
 		
 		return true;

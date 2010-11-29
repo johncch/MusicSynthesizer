@@ -16,6 +16,8 @@ import as.adamsmith.etherealdialpad.dsp.WtOsc;
 
 public class SynthManager {
 
+	public static final String TAG = "SYNTH_MANAGER";
+	
 	public static final int SINE_WAVE = 25;
 	public static final int TRIANGLE_WAVE = 26;
 	public static final int SQUARE_WAVE = 27;
@@ -39,15 +41,24 @@ public class SynthManager {
 		}
 	}
 	
+	public void setSoundSourceFreq(int id, float freq) {
+		this.oscillators.get(id).setFreq(freq);
+	}
+	
 	public void addSoundSource(int id) {
 		if ( oscillators.size() < (id + 1) ) {
 			for(int i = oscillators.size(); i < (id + 1); i++){
 				oscillators.add(new Osc());
+				Log.d(TAG, "CREATED NEW OSCILLATOR");
 			}
+			Log.d(TAG, "FINISHED CREATING OSCILLATORS");
 			this.setWave();
+			Log.d(TAG, "SET WAVES!");
 		}
 		Osc osc = oscillators.get(id);
+		Log.d(TAG, "ADDING INTO RUNNER");
 		runner.addIntoOscillators(osc);
+		Log.d(TAG, "AFTER ADDING INTO RUNNER");
 	}
 	
 	public void removeSoundSource(int id) {
@@ -84,6 +95,8 @@ public class SynthManager {
 
 class SynthesizerRunner implements Runnable {
 	
+	private static String TAG = "SYNTHESIZER_RUNNER";
+	
 	private final float[] localBuffer;
 	private final AudioTrack track;
 	private final short [] target = new short[UGen.CHUNK_SIZE];
@@ -112,10 +125,12 @@ class SynthesizerRunner implements Runnable {
 	}
 	
 	public synchronized void addIntoOscillators(Unit unit) {
+		Log.d("ADDDING", "Adding Oscillators");
 		oscillators.add(unit);
 	}
 	
 	public synchronized void removeFromOscillators(Unit unit) {
+		Log.d("REMOVVING", "removing Oscillators");
 		if(oscillators.contains(unit)) {
 			oscillators.remove(unit);
 		}
@@ -137,25 +152,39 @@ class SynthesizerRunner implements Runnable {
 	//@Override
 	public void run() {
 		
+		track.play();
+		
 		while(running) {
-			synchronized(this) {
+			//synchronized(this) {
+				// Log.d(TAG, "OSCILLATOR SIZE IS " + oscillators.size());
 				if(oscillators.size() == 0) {
+					// Log.d("OSCILLATOR", "Writing Silence");
 					track.write(silentTarget, 0, silentTarget.length);
 				} else {
+					//Log.d("OSCILLATOR", "Writing data");
 					zeroBuffer(localBuffer);
 					
-					for(int i = 0; i < oscillators.size(); i++) {
-						oscillators.get(i).render(localBuffer);
+					synchronized(this) {
+						for(int i = 0; i < oscillators.size(); i++) {
+							oscillators.get(i).render(localBuffer);
+						}
 					}
 					
 					for(int i = 0; i < Unit.CHUNK_SIZE; i++) {
-						target[i] = (short)(32768.0f*localBuffer[i]);
+						// target[i] = (short)(32768.0f*localBuffer[i]);
+						float scaledDownMagnitude = 32768.0f / oscillators.size();
+						target[i] = (short)(scaledDownMagnitude * localBuffer[i]);
 					}
 					
 					track.write(target, 0, target.length);
 				}
-			}
+			//}
+			
+			//Log.d(TAG, "Outside Synck block");
 		}
+		
+		track.stop();
+		track.release();
 	}
 	
 	protected void zeroBuffer(final float[] buffer) {
