@@ -14,6 +14,8 @@ public class HighPassSP extends IIRFilter {
 		float x = (float) Math.exp(-2 * Math.PI * fracFreq);
 		a = new float[] { (1 + x) / 2, -(1 + x) /2 };
 		b = new float[] { x };
+		
+		super.calcCoeff();
 	}
 
 }

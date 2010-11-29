@@ -11,6 +11,8 @@ public class LowPassSP extends IIRFilter {
 		float x = (float) Math.exp(-2 * Math.PI * fracFreq);
 		a = new float[] {1f-x};
 		b = new float[] {x};
+		
+		super.calcCoeff();
 	}
 	
 }

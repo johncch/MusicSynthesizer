@@ -10,7 +10,7 @@ public class AmpMod extends Unit {
 	}
 	
 	@Override
-	public void render(final float[] buffer) {
+	public Unit render(final float[] buffer) {
 		for(int i = 0; i < CHUNK_SIZE; i++) {
 			float scaled = phase * WaveTable.ENTRIES;
 			final float fraction = scaled-(int)scaled;
@@ -19,6 +19,7 @@ public class AmpMod extends Unit {
 			          + fraction * WaveTable.SinWave[(index+1) & WaveTable.MASK]);
 			phase = (phase + cyclesPerSample) - (int)phase;
 		}	
+		return this;
 	}
 
 }

@@ -15,7 +15,12 @@ public abstract class IIRFilter extends Unit {
 	protected float[] a;
 	protected float[] b;
 	
+	protected float prevIn[];
+	protected float prevOut[];
+	
 	protected float cutOffFreq;
+	
+	protected int minInd;
 	
 	public final Unit setFreq(float freq) {
 		if(validFreq(freq) && freq != cutOffFreq) {
@@ -30,11 +35,24 @@ public abstract class IIRFilter extends Unit {
 	}
 	
 	@Override
-	public void render(float[] buffer) {
-		if(a == null || b == null) return;
+	public Unit render(float[] buffer) {
+		if(a == null || b == null) return this;
 		
 		float[] out = new float[buffer.length];
 		int minIndex = Math.max(a.length - 1, b.length);
+		
+		if(minIndex > 0 && (prevIn != null) && (prevOut != null)) {
+			for(int i = 0; i < minIndex; i++) {
+				for(int j = 0; j < a.length; j++) {
+					float multiplier = (i - j >= 0) ? buffer[i-j] : prevIn[Math.abs(i - j)];
+					out[i] += a[j] * multiplier;
+				}
+				for(int j = 0; j < b.length; j++) {
+					float multiplier = (i - j - 1 >= 0) ? out[i-j-1] : prevIn[Math.abs(i - j - 1)];
+					out[i] += b[j] * multiplier;
+				}
+			}
+		}
 		
 		for(int i = minIndex; i < buffer.length; i++) {
 			for(int j = 0; j < a.length; j++) {
@@ -45,12 +63,22 @@ public abstract class IIRFilter extends Unit {
 			}
 		}
 		
+		for(int i = 0; i < prevIn.length; i++) {
+			this.prevIn[i] = buffer[prevIn.length - i - 1];
+			this.prevOut[i] = out[prevIn.length - i - 1];
+		}
+		
 		//for(int i = 0; i < buffer.length; i++) {
 		//	buffer[i] = out[i];
 		//}
 		System.arraycopy(out, 0, buffer, 0, out.length);
+		return this;
 	}
 
-	protected abstract void calcCoeff();
+	protected void calcCoeff() {
+		minInd = Math.max(a.length - 1, b.length);
+		this.prevIn = new float[minInd];
+		this.prevOut = new float[minInd];
+	}
 	
 }

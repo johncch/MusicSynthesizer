@@ -29,18 +29,20 @@ public class Osc extends Unit {
 	 * 
 	 * @param buffer
 	 */
-	public void setInputWave(float[] inputWave) {
+	public Unit setInputWave(float[] inputWave) {
 		this.inputWave = inputWave;
+		return this;
 	}
 	
-	public void render(final float[] buffer) {
+	public Unit render(final float[] buffer) {
 		for(int i = 0; i < CHUNK_SIZE; i++) {
 			float scaled = phase * ENTRIES;
 			final float fraction = scaled-(int)scaled;
 			final int index = (int)scaled;
 			buffer[i] += (1.0f-fraction) * table[index&MASK] + fraction * table[(index+1)&MASK];
-			phase = (phase + cyclesPerSample) - (int)phase;
+			phase = (phase + cyclesPerSample + inputWave[i]) - (int)phase;
 		}	
+		return this;
 	}
 	
 	public void fillWithSin() {
