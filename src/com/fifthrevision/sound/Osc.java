@@ -40,7 +40,7 @@ public class Osc extends Unit {
 			final float fraction = scaled-(int)scaled;
 			final int index = (int)scaled;
 			buffer[i] += (1.0f-fraction) * table[index&MASK] + fraction * table[(index+1)&MASK];
-			phase = (phase + cyclesPerSample) - (int)phase + inputWave[i] * 5.0f;
+			phase = (phase + cyclesPerSample) - (int)phase + ((inputWave != null) ? inputWave[i] * 0.5f : 0);
 		}	
 		return this;
 	}
@@ -67,7 +67,7 @@ public class Osc extends Unit {
 	
 	public void fillWithSqr() {
 		for(int i = 0; i < ENTRIES; i++) {
-			table[i] = (i < ENTRIES/2) ? 1f : -1f;
+			table[i] = (i < ENTRIES/2) ? 0.9f : -0.9f;
 		}
 	}
 	

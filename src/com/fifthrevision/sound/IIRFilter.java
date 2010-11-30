@@ -44,11 +44,12 @@ public abstract class IIRFilter extends Unit {
 		if(minIndex > 0 && (prevIn != null) && (prevOut != null)) {
 			for(int i = 0; i < minIndex; i++) {
 				for(int j = 0; j < a.length; j++) {
-					float multiplier = (i - j >= 0) ? buffer[i-j] : prevIn[Math.abs(i - j)];
+					float multiplier = (i - j >= 0) ? buffer[i-j] : prevIn[Math.abs(i - j) - 1];
 					out[i] += a[j] * multiplier;
 				}
 				for(int j = 0; j < b.length; j++) {
-					float multiplier = (i - j - 1 >= 0) ? out[i-j-1] : prevIn[Math.abs(i - j - 1)];
+					Log.d("STUFF", "i - j - 1 = " + (i - j - 1));
+					float multiplier = (i - j - 1 >= 0) ? out[i-j-1] : prevOut[(Math.abs(i - j - 1)) - 1];
 					out[i] += b[j] * multiplier;
 				}
 			}
