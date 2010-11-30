@@ -35,7 +35,8 @@ public class SynthManager {
 	public SynthManager(){
 		//Test
 		// runner.addPipeline(new AmpMod().setFreq(100));
-		// runner.addPipeline(new LowPassSP().setFreq(400));
+		runner.addPipeline(new LowPassSP().setFreq(400));
+		// runner.addInputWaveOsc((Osc) new Osc().setFreq(10));
 
 		Thread thread = new Thread(runner);
 		thread.start();
