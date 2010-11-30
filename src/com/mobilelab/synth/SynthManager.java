@@ -2,21 +2,16 @@ package com.mobilelab.synth;
 
 import java.util.ArrayList;
 
-import com.fifthrevision.sound.AmpMod;
-import com.fifthrevision.sound.HighPassSP;
-import com.fifthrevision.sound.LowPassFS;
-import com.fifthrevision.sound.LowPassSP;
-import com.fifthrevision.sound.Osc;
-import com.fifthrevision.sound.Unit;
-
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
-import as.adamsmith.etherealdialpad.dsp.Dac;
-import as.adamsmith.etherealdialpad.dsp.ExpEnv;
-import as.adamsmith.etherealdialpad.dsp.UGen;
-import as.adamsmith.etherealdialpad.dsp.WtOsc;
+
+import com.fifthrevision.sound.AmpMod;
+import com.fifthrevision.sound.HighPassSP;
+import com.fifthrevision.sound.LowPassFS;
+import com.fifthrevision.sound.Osc;
+import com.fifthrevision.sound.Unit;
 
 public class SynthManager {
 
@@ -33,16 +28,12 @@ public class SynthManager {
 	private SynthesizerRunner runner = new SynthesizerRunner();
 
 	public SynthManager(){
-		//Test
-		// runner.addPipeline(new AmpMod().setFreq(100));
-		runner.addPipeline(new LowPassSP().setFreq(400));
-		// runner.addInputWaveOsc((Osc) new Osc().setFreq(10));
-
 		Thread thread = new Thread(runner);
 		thread.start();
 	}
 
 	public void setCurrentWaveShape(int waveShape) {
+		Log.d("Test", "Stufff");
 		if(waveShape >= SINE_WAVE && waveShape <= SAW_WAVE) {
 			this.currentWaveShape = waveShape;
 			this.setWave();
@@ -181,8 +172,8 @@ class SynthesizerRunner implements Runnable {
 	private final float[] localBuffer;
 	private final float[] inputBuffer;
 	private final AudioTrack track;
-	private final short [] target = new short[UGen.CHUNK_SIZE];
-	private final short [] silentTarget = new short[UGen.CHUNK_SIZE];
+	private final short [] target = new short[Unit.CHUNK_SIZE];
+	private final short [] silentTarget = new short[Unit.CHUNK_SIZE];
 
 	private Osc inputWaveOsc;
 	private ArrayList<Unit> pipeline = new ArrayList<Unit>();
@@ -195,16 +186,16 @@ class SynthesizerRunner implements Runnable {
 		inputBuffer = new float[Unit.CHUNK_SIZE];
 
 		int minSize = AudioTrack.getMinBufferSize(
-				UGen.SAMPLE_RATE,
+				Unit.SAMPLE_RATE,
 				AudioFormat.CHANNEL_CONFIGURATION_MONO,
 				AudioFormat.ENCODING_PCM_16BIT);
 
 		track = new AudioTrack(
 				AudioManager.STREAM_MUSIC,
-				UGen.SAMPLE_RATE,
+				Unit.SAMPLE_RATE,
 				AudioFormat.CHANNEL_CONFIGURATION_MONO,
 				AudioFormat.ENCODING_PCM_16BIT,
-				Math.max(UGen.CHUNK_SIZE*4, minSize),
+				Math.max(Unit.CHUNK_SIZE*4, minSize),
 				AudioTrack.MODE_STREAM);
 	}
 

@@ -27,15 +27,17 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_marginLeft="20dp" 
 	 	android:layout_marginTop="12dp"
+	 	android:max="90"
 	 	android:layout_toRightOf="@+id/LFO1">
 	 </SeekBar>
 	 <SeekBar 
 	 	android:id="@+id/LFO2Bar" 
 	 	android:layout_width="150px"
 	 	android:layout_marginTop="30dp"
-	 	android:layout_marginLeft="20dp" 
+	 	android:layout_marginLeft="20dp"
 	 	android:layout_height="wrap_content"
 	 	android:layout_below="@+id/LFO1Bar"
-	 	android:layout_toRightOf="@+id/LFO2">
+	 	android:layout_toRightOf="@+id/LFO2"
+	 	android:max="90">
 	 </SeekBar>
 </RelativeLayout>
