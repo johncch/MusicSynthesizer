@@ -4,58 +4,59 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
+     
+   <ToggleButton android:id="@+id/SquareWave"
+	   android:background="@drawable/wave1" 
+	   android:textOn="" android:textOff=""
+	   android:adjustViewBounds="true" 
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content">
+	</ToggleButton>
+	<ToggleButton android:id="@+id/SawWave"
+	   android:background="@drawable/wave3"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_below="@+id/SquareWave"
+	   android:adjustViewBounds="true"
+	   android:layout_marginTop="7dp"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+    <ToggleButton android:id="@+id/TriangleWave"
+	   android:background="@drawable/wave2"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_toRightOf="@+id/SquareWave"
+	   android:adjustViewBounds="true"
+	   android:layout_marginLeft="7dp"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+	<ToggleButton android:id="@+id/SineWave"
+	   android:background="@drawable/wave4"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_toRightOf="@+id/SawWave"
+	   android:adjustViewBounds="true"
+	   android:layout_marginLeft="7dp"
+	   android:layout_marginTop="7dp"
+	    android:layout_below="@+id/TriangleWave"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+     
      <SeekBar 
      	android:id="@+id/AttBar" 
-     	android:orientation="vertical"
-	 	android:layout_width="wrap_content" 
-	 	android:layout_marginLeft = "10dp"
-	 	android:layout_height="100px"
-	 	android:layout_alignParentLeft = "true"
-	 	android:layout_alignParentTop = "true"
-	 	android:text = "@string/AttBar">
+     	android:layout_width="150px"
+	 	android:layout_marginTop="20dp"
+	 	android:layout_marginLeft="20dp" 
+	 	android:layout_height="wrap_content"
+	 	android:layout_toRightOf="@+id/TriangleWave">
 	 </SeekBar>
 	 <SeekBar 
 	 	android:id="@+id/DecBar" 
-	 	android:orientation="vertical"
-	 	android:layout_width="wrap_content" 
-	 	android:layout_height="100px"
-	 	android:layout_marginLeft = "15dp"
-	 	android:layout_toRightOf="@+id/AttBar"
-	 	android:layout_alignParentTop = "true"
-	 	android:text = "@string/DecBar">
+	 	android:layout_width="150px"
+	 	android:layout_marginTop="7dp"
+	 	android:layout_marginLeft="20dp" 
+	 	android:layout_height="wrap_content"
+	 	android:layout_below="@+id/AttBar"
+	 	android:layout_toRightOf="@+id/SineWave">
 	 </SeekBar>
-	<RadioGroup
-	   	android:layout_width="wrap_content"
-	   	android:layout_height="wrap_content"
-	   	android:id="@+id/WaveForms"
-	   	android:orientation="vertical"
-	   	android:layout_toRightOf="@+id/DecBar"
-	   	android:layout_alignParentTop="true">
-
- 	 	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/SquareWave" 
-	   		android:text="@string/Wave1"/>
-	   	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/TriangleWave"
-	   		android:text="@string/Wave2"/>  	
-	   	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/SawWave" 
-	   		android:text="@string/Wave3"/>
-	   	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/SineWave"
-	   		android:text="@string/Wave4"
-	   		android:checked="true"/> 		   	
-	 </RadioGroup>
 </RelativeLayout>

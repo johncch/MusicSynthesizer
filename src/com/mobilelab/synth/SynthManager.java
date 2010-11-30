@@ -240,7 +240,7 @@ class SynthesizerRunner implements Runnable {
 	/**
 	 * Pipeline rendering
 	 */
-	@Override
+	//@Override
 	public void run() {
 
 		track.play();

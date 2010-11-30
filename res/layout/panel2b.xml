@@ -5,37 +5,37 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	>
- 	<ToggleButton android:id="@+id/LFO1"
+ 	<ToggleButton android:id="@+id/HighPass"
 	   android:background="@drawable/lfo1b" 
-	   android:textOn="" android:textOff=""
+	   android:textOn="high" android:textOff="high"
 	   android:adjustViewBounds="true" 
        android:layout_height="wrap_content"
        android:layout_width="wrap_content">
 	</ToggleButton>
-	<ToggleButton android:id="@+id/LFO2"
+	<ToggleButton android:id="@+id/LowPass"
 	   android:background="@drawable/lfo2b"
 	   android:layout_width="wrap_content"
 	   android:layout_height="wrap_content"
-	   android:layout_below="@+id/LFO1"
+	   android:layout_below="@+id/HighPass"
 	   android:adjustViewBounds="true"
 	   android:layout_marginTop="7dp"
-	   android:textOn="" android:textOff="">  			   	
+	   android:textOn="low" android:textOff="low">  			   	
 	</ToggleButton>
     <SeekBar 
-	 	android:id="@+id/LFO1Bar" 
+	 	android:id="@+id/HighFreqBar" 
 	 	android:layout_width="150px" 
 	 	android:layout_height="wrap_content"
 	 	android:layout_marginLeft="20dp" 
 	 	android:layout_marginTop="12dp"
-	 	android:layout_toRightOf="@+id/LFO1">
+	 	android:layout_toRightOf="@+id/HighPass">
 	 </SeekBar>
 	 <SeekBar 
-	 	android:id="@+id/LFO2Bar" 
+	 	android:id="@+id/LowFreqBar" 
 	 	android:layout_width="150px"
 	 	android:layout_marginTop="30dp"
 	 	android:layout_marginLeft="20dp" 
 	 	android:layout_height="wrap_content"
-	 	android:layout_below="@+id/LFO1Bar"
-	 	android:layout_toRightOf="@+id/LFO2">
+	 	android:layout_below="@+id/HighFreqBar"
+	 	android:layout_toRightOf="@+id/LowPass">
 	 </SeekBar>
 </RelativeLayout>

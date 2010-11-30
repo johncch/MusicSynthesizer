@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
      	android:layout_height="wrap_content"
         android:background="@drawable/xypad" 
-        android:layout_marginLeft="10dp" 
-        android:layout_marginTop="10dp"/>
+        android:layout_marginLeft="7dp" 
+        android:layout_marginTop="7dp"/>
 	
    <com.mobilelab.msynthesizer.DrawView
      	android:id="@+id/ZPad"
@@ -21,8 +21,8 @@
      	android:layout_height="wrap_content"
      	android:background="@drawable/zpad"
      	android:layout_toRightOf="@id/XYPad"
-        android:layout_marginTop="10dp" 
-        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp" 
+        android:layout_marginLeft="7dp"
         />
  
   <RelativeLayout
@@ -30,30 +30,32 @@
  		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="10dp" 
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="7dp">
  
- 		<ImageButton android:id="@+id/panel1B"
+ 		<ImageButton android:id="@+id/panel2B"
  		    android:src="@drawable/config1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/panel1B"
 			android:background="@null" 
-			android:adjustViewBounds="true">
-		</ImageButton>
-		<ImageButton android:id="@+id/panel2B"
-		    android:src="@drawable/config2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/panel1B"
-			android:background="@null"
+			android:layout_marginTop="7dp" 
 			android:adjustViewBounds="true">
 		</ImageButton>
 		<ImageButton android:id="@+id/panel3B"
-		    android:src="@drawable/config3"
+		    android:src="@drawable/config2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_below="@+id/panel2B"
 			android:background="@null"
+			android:layout_marginTop="7dp" 
+			android:adjustViewBounds="true">
+		</ImageButton>
+		<ImageButton android:id="@+id/panel4B"
+		    android:src="@drawable/config3"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/panel3B"
+			android:background="@null"
+			android:layout_marginTop="7dp" 
 			android:adjustViewBounds="true">
    		</ImageButton>
    		<!--  <Button android:text="Config4"
@@ -66,11 +68,14 @@
 			android:id="@+id/flipper"
 			android:layout_width="fill_parent"
 			android:layout_height="250px"
-			android:layout_toRightOf="@+id/panel1B">
+			android:layout_marginTop="10dp"
+			android:layout_marginLeft="7dp" 
+			android:layout_below="@+id/XYPad"
+			android:layout_toRightOf="@+id/panel2B">
 			<include android:id="@+id/panel1"  layout="@layout/panel1" />
 			<include android:id="@+id/panel2"  layout="@layout/panel2" />
-			<include android:id="@+id/panel3"  layout="@layout/panel3" />
-			<include android:id="@+id/panel3"  layout="@layout/panel4" />
+			<include android:id="@+id/panel3"  layout="@layout/panel3b" />
+			<include android:id="@+id/panel4"  layout="@layout/panel4b" />
 		</ViewFlipper>
 	</RelativeLayout> 
 

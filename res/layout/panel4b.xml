@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:id="@+id/LinearLayout02"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+     
+   <ToggleButton android:id="@+id/LFOSquareWave"
+	   android:background="@drawable/wave1" 
+	   android:textOn="" android:textOff=""
+	   android:adjustViewBounds="true" 
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content">
+	</ToggleButton>
+	<ToggleButton android:id="@+id/LFOSawWave"
+	   android:background="@drawable/wave3"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_below="@+id/LFOSquareWave"
+	   android:adjustViewBounds="true"
+	   android:layout_marginTop="7dp"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+    <ToggleButton android:id="@+id/LFOTriangleWave"
+	   android:background="@drawable/wave2"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_toRightOf="@+id/LFOSquareWave"
+	   android:adjustViewBounds="true"
+	   android:layout_marginLeft="7dp"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+	<ToggleButton android:id="@+id/LFOSineWave"
+	   android:background="@drawable/wave4"
+	   android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_toRightOf="@+id/LFOSawWave"
+	   android:adjustViewBounds="true"
+	   android:layout_marginLeft="7dp"
+	   android:layout_marginTop="7dp"
+	    android:layout_below="@+id/LFOTriangleWave"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+     
+     <SeekBar 
+     	android:id="@+id/LFOFreqBar" 
+     	android:layout_width="150px"
+	 	android:layout_marginTop="20dp"
+	 	android:layout_marginLeft="25dp" 
+	 	android:layout_height="wrap_content"
+	 	android:layout_toRightOf="@+id/LFOTriangleWave">
+	 </SeekBar>
+	  <ToggleButton android:id="@+id/LFOTone"
+	   android:background="@drawable/toneb" 
+	   android:textOn="" android:textOff=""
+	   android:adjustViewBounds="true" 
+	   android:layout_below="@+id/LFOFreqBar"
+	   android:layout_toRightOf="@+id/LFOSineWave"
+	   android:layout_marginLeft="15dp"
+	   android:layout_marginTop="7dp"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content">
+	</ToggleButton>
+	 <ToggleButton android:id="@+id/LFOFreq"
+	   android:background="@drawable/freqb" 
+	   android:textOn="" android:textOff=""
+	   android:adjustViewBounds="true" 
+	   android:layout_below="@+id/LFOFreqBar"
+	   android:layout_toRightOf="@+id/LFOTone"
+	   android:layout_marginLeft="7dp"
+	   android:layout_marginTop="7dp"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content">
+	</ToggleButton>
+    <ToggleButton android:id="@+id/LFOFilter"
+	   android:background="@drawable/filterb" 
+	   android:textOn="" android:textOff=""
+	   android:adjustViewBounds="true" 
+	   android:layout_below="@+id/LFOFreqBar"
+	   android:layout_toRightOf="@+id/LFOFreq"
+	   android:layout_marginLeft="7dp"
+	   android:layout_marginTop="7dp"
+       android:layout_height="wrap_content"
+       android:layout_width="wrap_content">
+	</ToggleButton>
+</RelativeLayout>
