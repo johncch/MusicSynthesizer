@@ -14,6 +14,14 @@ import com.fifthrevision.sound.Osc;
 import com.fifthrevision.sound.Unit;
 import com.fifthrevision.sound.VolumeControl;
 
+/**
+ * This is the main interface to the Synthesizer engine. It exposes an API that is
+ * very different than it's guts; every effect is simply represented as an on, off
+ * vary method call.
+ * 
+ * @author johncch
+ *
+ */
 public class SynthManager {
 
 	public static final String TAG = "SYNTH_MANAGER";
@@ -195,6 +203,18 @@ public class SynthManager {
 
 }
 
+/**
+ * The thread runnable so that the audio processing can be done in a 
+ * separate thread. This class utilizes a simple 3 stage pipeline that
+ * can be simply extended from the outside.
+ * 
+ * First is the input wave to the signal. Then, the input wave is fed to
+ * the oscillators to generate the signal. The signal is then piped into
+ * the pipeline for effects to be stacked.
+ * 
+ * @author johncch
+ *
+ */
 class SynthesizerRunner implements Runnable {
 
 	private static String TAG = "SYNTHESIZER_RUNNER";

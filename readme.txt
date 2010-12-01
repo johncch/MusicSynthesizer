@@ -1,18 +1,16 @@
 1. Summary
-The PadSynth music synthesizer offers an innovative input interface, which is based on a multi touch paradigm for sound synthesis. 
+The Music Synthesizer is a multi-touch interface that can generate simple and fun sound waves. 
 
-2. Tested on API 1.6. Targeting API 2.0 for Multitouch, pending device availability.
+1. Tested on Android API 2.1 update 1. Compatible with API 2.0 and above.
 
-2. Developed on MacOS, Tested on T-Mobile G1 with Android 1.6
+2. Developed on MacOS, Tested on HTC Hero with 2.1.
 
 3. No dependencies
 
-4. Currently only the XYPad works with the Y axis hard coded to map the frequency of the oscillator. 
-The other work in progress is the Wave form selection which can be accessed by clicking on Config2,
-The Sine and Saw wave works but the Triangle and Square waves produce a white noise like sound which
-I am unable to debug despite spending many hours on it. This version is highly incomplete. However,
-the design of this software is modular, and hence features can be slowly added as we move on
-and iron out more bugs. 
+4. The source code is feature complete as far as this release is concerned. There needs to be some tuning on
+the filters to better improve performance. There is also room for improving the performance and battery drain
+for the application. If you find any bugs, please write to johncch at gmail dot com:w
 
 5. Authors: Veronica Borges (vborges), Pablo Bariola (pbariola), Chong Han Chua (chuachoh).
+
 The source code is available at http://github.com/johncch/MusicSynthesizer
