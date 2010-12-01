@@ -1,7 +1,10 @@
 package com.mobilelab.msynthesizer;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -16,35 +19,49 @@ import android.widget.ImageView;
 
 // DrawView is a view. It listens to mouse click events and draws a point at the point that it was clicked on.
 public class DrawView extends ImageView implements OnTouchListener {
-     List<Point> points = new ArrayList<Point>();
+     HashMap<Point, Long> points = new HashMap<Point, Long>();
      Paint paint = new Paint();
+     boolean released = false;
+     Random gen = new Random();
      
      public DrawView(Context context, AttributeSet attrs) {
 	     super(context, attrs);
 	     setFocusable(true);
 	     setFocusableInTouchMode(true);
 	     this.setOnTouchListener(this);
-	     paint.setColor(Color.WHITE);
 	     paint.setAntiAlias(true);
-	    // this.setBackgroundColor(Color.GRAY);
+	   //  this.setBackgroundColor(android.graphics.Color.BLACK);
+	   
      }
 
 	 @Override
 	 public void onDraw(Canvas canvas) {
-	     for (Point point : points) {
-	         canvas.drawCircle(point.x, point.y, 5, paint);
+			 canvas.drawColor(android.graphics.Color.TRANSPARENT);
+		 
+	     for (Point point : points.keySet()) {
+	    	 if (((new Date().getTime()) - points.get(point)) < 1000){
+	    		 paint.setColor(android.graphics.Color.rgb(Math.max((int)point.x,255), Math.max((int)point.y,255), gen.nextInt(255)));
+	    		 canvas.drawCircle(point.x, point.y, point.size, paint);
+	    	 }
+	    	 else {
+	    		 paint.setColor(Color.TRANSPARENT);
+	    	     canvas.drawCircle(point.x, point.y, point.size, paint);
+	    	 }
 	     }
 	 }
-
+	 
 	 public boolean onTouch(View view, MotionEvent event) {
-		 dumpEvent(event);
-	     Point point = new Point();
-	     point.x = event.getX();
-	     point.y = event.getY();
-	     points.add(point);
-	     invalidate();
+		Point point = new Point();
+		point.x = event.getX();
+		point.y = event.getY();
+		point.size = Math.max(gen.nextInt(40), 15);
+		points.put(point, new Date().getTime());
+		invalidate();
+		released = false;
 	     return true;
 	 }
+	 
+	
 	 
 	 /* private void dumpEvent(MotionEvent event) {
 		 String names[] = {"DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE", "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?"};
@@ -85,6 +102,7 @@ public class DrawView extends ImageView implements OnTouchListener {
 
 class Point {
 	float x, y;
+	int size;
      
     @Override
     public String toString() {

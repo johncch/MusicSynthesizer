@@ -362,6 +362,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 
 	//@Override
 	public boolean onTouch(View view, MotionEvent event) {
+		
 		int action = event.getAction();
 		int actionCode = action & MotionEvent.ACTION_MASK;
 		// dumpEvent(event);
@@ -400,7 +401,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 			sm.removeSoundSource(id);
 			break;
 		}
-
+		drawView.onTouch(view, event);
 		return true;
 	}
 

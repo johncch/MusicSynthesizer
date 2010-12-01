@@ -15,7 +15,7 @@
     <string name="LPass">LowPass</string>
     <string name="XSett">X-Options</string>
     <string name="YSett">Y-Options</string>
-    <string name="ZSett">Z-Options</string>
+    <string name="canvas">Canvas</string>
     <string name="about">About</string>
     <string name="DecBar">Decay</string>
     <string name="FreqBar">Decay</string>
