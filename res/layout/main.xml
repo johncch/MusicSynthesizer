@@ -11,8 +11,7 @@
         android:layout_alignParentLeft="true" 
         android:layout_width="fill_parent"
      	android:layout_height="330px"
-        android:background="@drawable/xypad" 
-        />
+        android:background="@drawable/xypad"/>
  
   <RelativeLayout
  		android:layout_below="@+id/XYPad"
