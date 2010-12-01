@@ -9,73 +9,54 @@
      	android:id="@+id/XYPad"
      	android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" 
-        android:layout_width="wrap_content"
-     	android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+     	android:layout_height="330px"
         android:background="@drawable/xypad" 
-        android:layout_marginLeft="7dp" 
-        android:layout_marginTop="7dp"/>
-	
-   <com.mobilelab.msynthesizer.DrawView
-     	android:id="@+id/ZPad"
-     	android:layout_width="wrap_content"
-     	android:layout_height="wrap_content"
-     	android:background="@drawable/zpad"
-     	android:layout_toRightOf="@id/XYPad"
-        android:layout_marginTop="7dp" 
-        android:layout_marginLeft="7dp"
         />
  
   <RelativeLayout
  		android:layout_below="@+id/XYPad"
  		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="10dp" 
         android:layout_marginLeft="7dp">
  
- 		<ImageButton android:id="@+id/panel2B"
- 		    android:src="@drawable/config1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@null" 
-			android:layout_marginTop="7dp" 
+ 		<ToggleButton android:id="@+id/panel1B"
+			android:layout_width="45px"
+			android:layout_height="45px"
+			android:background="@drawable/config1" 
+			android:textOn="" android:textOff=""
+			android:layout_marginTop="3dp" 
 			android:adjustViewBounds="true">
-		</ImageButton>
-		<ImageButton android:id="@+id/panel3B"
-		    android:src="@drawable/config2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+		</ToggleButton>
+		<ToggleButton android:id="@+id/panel2B"
+			android:layout_width="45px"
+			android:layout_height="45px"
+			android:layout_below="@+id/panel1B"
+			android:background="@drawable/config2" 
+			android:textOn="" android:textOff=""
+			android:layout_marginTop="3dp" 
+			android:adjustViewBounds="true">
+		</ToggleButton>
+		<ToggleButton android:id="@+id/panel3B"
+			android:layout_width="45px"
+			android:layout_height="45px"
 			android:layout_below="@+id/panel2B"
-			android:background="@null"
-			android:layout_marginTop="7dp" 
+			android:background="@drawable/config3" 
+			android:textOn="" android:textOff=""
+			android:layout_marginTop="3dp" 
 			android:adjustViewBounds="true">
-		</ImageButton>
-		<ImageButton android:id="@+id/panel4B"
-		    android:src="@drawable/config3"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/panel3B"
-			android:background="@null"
-			android:layout_marginTop="7dp" 
-			android:adjustViewBounds="true">
-   		</ImageButton>
-   		<!--  <Button android:text="Config4"
-			android:id="@+id/panel4B"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_below="@+id/panel3B">
-   		</Button>-->
+		</ToggleButton>
 		<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
 			android:id="@+id/flipper"
 			android:layout_width="fill_parent"
 			android:layout_height="250px"
-			android:layout_marginTop="10dp"
+			android:layout_marginTop="3dp"
 			android:layout_marginLeft="7dp" 
 			android:layout_below="@+id/XYPad"
 			android:layout_toRightOf="@+id/panel2B">
 			<include android:id="@+id/panel1"  layout="@layout/panel1" />
 			<include android:id="@+id/panel2"  layout="@layout/panel2" />
-			<include android:id="@+id/panel3"  layout="@layout/panel3b" />
-			<include android:id="@+id/panel4"  layout="@layout/panel4b" />
+			<include android:id="@+id/panel3"  layout="@layout/panel3" />
 		</ViewFlipper>
 	</RelativeLayout> 
 

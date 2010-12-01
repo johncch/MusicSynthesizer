@@ -9,13 +9,13 @@
 	   android:background="@drawable/lfo1b" 
 	   android:textOn="" android:textOff=""
 	   android:adjustViewBounds="true" 
-       android:layout_height="wrap_content"
-       android:layout_width="wrap_content">
+       android:layout_height="55px"
+       android:layout_width="55px">
 	</ToggleButton>
 	<ToggleButton android:id="@+id/LFO2"
 	   android:background="@drawable/lfo2b"
-	   android:layout_width="wrap_content"
-	   android:layout_height="wrap_content"
+	   android:layout_width="55px"
+	   android:layout_height="55px"
 	   android:layout_below="@+id/LFO1"
 	   android:adjustViewBounds="true"
 	   android:layout_marginTop="7dp"
