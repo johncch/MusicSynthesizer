@@ -1,85 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
    android:id="@+id/LinearLayout01"
+	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:orientation="vertical">
-    
-	<RadioGroup
-	   	android:layout_width="wrap_content"
-	   	android:layout_height="wrap_content"
-	   	android:id="@+id/LFOWaves"
-	   	android:orientation="vertical"
-	   	android:layout_marginLeft="15dp"
-	   	android:layout_alignParentLeft="true"
-	   	android:layout_alignParentTop="true">
-
- 	 	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/LFOWave1" 
-	   		android:text="@string/Wave1"/>
-	   	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/LF0Wave2"
-	   		android:text="@string/Wave2"/>  
-	   	<RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/LF0Wave3"
-	   		android:text="@string/Wave3"/>  	
-	  <RadioButton
-	   		android:layout_width="wrap_content"
-	   		android:layout_height="wrap_content"
-	   		android:layout_weight="1"
-	   		android:id="@+id/LF0Wave4"
-	   		android:text="@string/Wave4"/>  			   			   				   	
-	 </RadioGroup>
-
- <SeekBar 
-	 	android:id="@+id/FreqBar" 
-	 	android:layout_width="100px" 
-	 	android:layout_marginLeft="15dp"
+	>
+ 	<ToggleButton android:id="@+id/HighPass"
+	   android:background="@drawable/filterb" 
+	   android:textOn="" android:textOff=""
+	   android:adjustViewBounds="true" 
+       android:layout_height="55px"
+       android:layout_width="55px">
+	</ToggleButton>
+	<ToggleButton android:id="@+id/LowPass"
+	   android:background="@drawable/filterb"
+	   android:layout_width="55px"
+	   android:layout_height="55px"
+	   android:layout_below="@+id/HighPass"
+	   android:adjustViewBounds="true"
+	   android:layout_marginTop="7dp"
+	   android:textOn="" android:textOff="">  			   	
+	</ToggleButton>
+    <SeekBar 
+	 	android:id="@+id/HighFreqBar" 
+	 	android:layout_width="150px" 
 	 	android:layout_height="wrap_content"
-	 	android:layout_alignParentTop="true"
-	 	android:layout_alignParentRight="true"
-	 	android:layout_toRightOf="@+id/LFOWaves">
+	 	android:layout_marginLeft="20dp" 
+	 	android:layout_marginTop="12dp"
+	 	android:layout_toRightOf="@+id/HighPass">
 	 </SeekBar>
-	<RadioGroup
- 		android:layout_below="@+id/FreqBar"
- 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-	 	android:layout_alignParentRight="true"
-	 	android:layout_toRightOf="@+id/LFOSett"
-	 	android:orientation = "horizontal">
- 		<RadioButton 
- 		    android:text="@string/Tone"
-			android:id="@+id/toneB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-	   		android:layout_weight="1">
-		</RadioButton >
-		<RadioButton  android:text="@string/Volume"
-			android:id="@+id/volumeB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1">
-		</RadioButton >
-		<RadioButton  android:text="@string/HPass"
-			android:id="@+id/hPassB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1">
-   		</RadioButton >
-   		<RadioButton  android:text="@string/LPass"
-			android:id="@+id/lPassB"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1">
-		</RadioButton>
-	</RadioGroup>
+	 <SeekBar 
+	 	android:id="@+id/LowFreqBar" 
+	 	android:layout_width="150px"
+	 	android:layout_marginTop="30dp"
+	 	android:layout_marginLeft="20dp" 
+	 	android:layout_height="wrap_content"
+	 	android:layout_below="@+id/HighFreqBar"
+	 	android:layout_toRightOf="@+id/LowPass">
+	 </SeekBar>
 </RelativeLayout>

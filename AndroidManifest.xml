@@ -12,6 +12,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
+    <activity android:name=".About" android:label="@string/about"
+    		android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+          </application>
 <uses-sdk android:targetSdkVersion="7" android:minSdkVersion="6"></uses-sdk>
 </manifest> 

@@ -1,18 +1,24 @@
 package com.mobilelab.msynthesizer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
+
 
 import com.mobilelab.synth.SynthManager;
 
@@ -26,9 +32,9 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 	private SynthManager sm;
 
 	/*flipper buttons*/
-	ImageButton panel2Btn; 
-	ImageButton panel3Btn; 
-	ImageButton panel4Btn;
+	ToggleButton panel1Btn; 
+	ToggleButton panel2Btn; 
+	ToggleButton panel3Btn;
 
 	/*lfo buttons*/
 	private ToggleButton lfo1Btn;
@@ -42,11 +48,6 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 	private ToggleButton sawBtn;
 	private ToggleButton sinBtn;
 
-	/*lfo1 wave buttons*/
-	private ToggleButton lfoSqrBtn;
-	private ToggleButton lfoTriBtn;
-	private ToggleButton lfoSawBtn;
-	private ToggleButton lfoSinBtn;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,11 +58,12 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		drawView = (DrawView) findViewById(R.id.XYPad);
 
 		drawView.setOnTouchListener(this);
-
+		
+		
 		/*initialize panels buttons and set listeners*/
-		panel2Btn = (ImageButton) findViewById(R.id.panel2B);
-		panel3Btn = (ImageButton) findViewById(R.id.panel3B);
-		panel4Btn = (ImageButton) findViewById(R.id.panel4B);
+		panel1Btn = (ToggleButton) findViewById(R.id.panel1B);
+		panel2Btn = (ToggleButton) findViewById(R.id.panel2B);
+		panel3Btn = (ToggleButton) findViewById(R.id.panel3B);
 		//ImageButton back = (ImageButton) findViewById(R.id.back);
 		setPanelListeners();
 
@@ -78,36 +80,33 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		sawBtn = (ToggleButton) this.findViewById(R.id.SawWave);
 		sinBtn = (ToggleButton) this.findViewById(R.id.SineWave);    
 		setWaveListeners();
-
-		/*initialize lfo wave buttons and set listeners*/
-		/* lfoSqrBtn = (ToggleButton) this.findViewById(R.id.SquareWave);
-		lfoTriBtn = (ToggleButton) this.findViewById(R.id.TriangleWave);
-		lfoSawBtn = (ToggleButton) this.findViewById(R.id.SawWave);
-		lfoSinBtn = (ToggleButton) this.findViewById(R.id.SineWave);*/
-		// setLFOWaveListeners();
-
-
-
-		/*
-
-    	@Override
-    	public boolean onCreateOptionsMenu(Menu menu){
-    		super.onCreateOptionsMenu(menu);
-    		SubMenu sub = menu.addSubMenu(0, Menu.FIRST, Menu.NONE, "Options"); //create menu button
-    		sub.add(0, Menu.FIRST, Menu.NONE, "Help").setCheckable(true).setChecked(true); //red item
-    		sub.add(0, Menu.FIRST+1, Menu.NONE, "About").setCheckable(true); //white item
-    		sub.setGroupCheckable(0, true, true);  //make menu checkable
-        return true;
-    	}
-		 */
-
+		 
 		sm = new SynthManager();
 	}
-
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item){
+		super.onOptionsItemSelected(item);
+		Intent intent = new Intent(MusicSynthesizer.this, About.class);  //intent to about activity
+		startActivity(intent);
+		return true;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu){
+		super.onCreateOptionsMenu(menu);
+		menu.add(0, Menu.FIRST, Menu.NONE, "About"); //create menu button
+		return true;
+	}
+	
 	private void setPanelListeners(){
 		/* if button1 is pressed, display 1st panel*/
-		panel2Btn.setOnClickListener(new View.OnClickListener() {
+		panel1Btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
+				panel2Btn.setChecked(false);
+				panel3Btn.setChecked(false);
+				panel1Btn.setChecked(true);
+				
 				if (flipper.getDisplayedChild() != 0){
 					flipper.setInAnimation(inFromRightAnimation());
 					// flipper.setOutAnimation(outToRightAnimation());
@@ -117,8 +116,12 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		});
 
 		/* if button2 is pressed, display 2st panel*/
-		panel3Btn.setOnClickListener(new View.OnClickListener() {
+		panel2Btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
+				panel1Btn.setChecked(false);
+				panel3Btn.setChecked(false);
+				panel2Btn.setChecked(true);
+				
 				/*only do animation if panel isn't currently displayed*/
 				if (flipper.getDisplayedChild() != 1){
 					flipper.setInAnimation(inFromRightAnimation());
@@ -129,8 +132,12 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		});
 
 		/* if button3 is pressed, display 3srd panel*/
-		panel4Btn.setOnClickListener(new View.OnClickListener() {
+		panel3Btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
+				panel1Btn.setChecked(false);
+				panel2Btn.setChecked(false);
+				panel3Btn.setChecked(true);
+				
 				/*only do animation if panel isn't currently displayed*/
 				if (flipper.getDisplayedChild() != 2){
 					flipper.setInAnimation(inFromRightAnimation());
@@ -140,17 +147,6 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 			}
 		});
 
-		/* if button4 is pressed, display 4th panel
-        button4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-            	only do animation if panel isn't currently displayed
-          		if (flipper.getDisplayedChild() != 3){
-                flipper.setInAnimation(inFromRightAnimation());
-                //flipper.setOutAnimation(outToLeftAnimation());
-                flipper.setDisplayedChild(3); 
-            	}
-            }
-        });*/
 	}
 	
 	private void initLFOListeners() {
@@ -175,18 +171,18 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		});
 		
 		lfo1SeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			@Override
+			//@Override
 			public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
 				sm.setAmpModFreq(10 + progress);
 			}
 
-			@Override
+			//@Override
 			public void onStartTrackingTouch(SeekBar arg0) {
 				// TODO Auto-generated method stub
 				
 			}
 
-			@Override
+		//	@Override
 			public void onStopTrackingTouch(SeekBar arg0) {
 				// TODO Auto-generated method stub
 				
@@ -203,7 +199,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				triBtn.setChecked(false);
 				sawBtn.setChecked(false);
 				sinBtn.setChecked(false);
-
+				sqrBtn.setChecked(true);
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.SQUARE_WAVE);
 			}
@@ -215,7 +211,8 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				sqrBtn.setChecked(false);
 				sawBtn.setChecked(false);
 				sinBtn.setChecked(false);
-
+				triBtn.setChecked(true);
+				
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.TRIANGLE_WAVE);
 			}
@@ -228,6 +225,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				sqrBtn.setChecked(false);
 				triBtn.setChecked(false);
 				sinBtn.setChecked(false);
+				sawBtn.setChecked(true);
 
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.SAW_WAVE);
@@ -241,6 +239,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				triBtn.setChecked(false);
 				sawBtn.setChecked(false);
 				sqrBtn.setChecked(false);
+				sinBtn.setChecked(true);
 
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.SINE_WAVE);
@@ -248,68 +247,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		});
 	}
 
-	private void setLFOWaveListeners(){
-		lfoSqrBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				/*make them behave as radio buttons*/
-				if (lfoSqrBtn.isChecked()){
-					lfoTriBtn.setChecked(false);
-					lfoSawBtn.setChecked(false);
-					lfoSinBtn.setChecked(false);
-				}
-				else
-					lfoSqrBtn.setChecked(true);
-
-				/*TODO: set wave*/
-			}
-		});
-
-		lfoTriBtn.setOnClickListener(new View.OnClickListener() {	
-			public void onClick(View v) {
-				/*make them behave as radio buttons*/
-				if (lfoTriBtn.isChecked()){
-					lfoSqrBtn.setChecked(false);
-					lfoSawBtn.setChecked(false);
-					lfoSinBtn.setChecked(false);
-				}
-				else
-					lfoTriBtn.setChecked(true);
-
-				/*TODO: set wave*/
-			}
-		});
-
-		lfoSawBtn.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				/*make them behave as radio buttons*/
-				if (lfoSawBtn.isChecked()){
-					lfoSqrBtn.setChecked(false);
-					lfoTriBtn.setChecked(false);
-					lfoSinBtn.setChecked(false);
-				}
-				else
-					lfoSawBtn.setChecked(true);
-
-				/*TODO: set wave*/
-			}
-		});
-
-		lfoSinBtn.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				/*make them behave as radio buttons*/
-				if (lfoSinBtn.isChecked()){
-					lfoTriBtn.setChecked(false);
-					lfoSawBtn.setChecked(false);
-					lfoSqrBtn.setChecked(false);
-				}
-				else
-					lfoSinBtn.setChecked(true);
-
-				/*TODO: set wave*/		
-			}
-		});
-	}
+	
 
 	/*** inFromRightAnimation
 	 *   Animation for panels to "slide in" from the right when their button is pressed

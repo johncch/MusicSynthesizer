@@ -4,60 +4,44 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
-     
+
    <ToggleButton android:id="@+id/SquareWave"
 	   android:background="@drawable/wave1" 
 	   android:textOn="" android:textOff=""
 	   android:adjustViewBounds="true" 
-       android:layout_height="wrap_content"
-       android:layout_width="wrap_content">
+       android:layout_height="55px"
+       android:layout_width="55px"
+       android:layout_marginTop="38dp">
 	</ToggleButton>
 	<ToggleButton android:id="@+id/SawWave"
 	   android:background="@drawable/wave3"
-	   android:layout_width="wrap_content"
-	   android:layout_height="wrap_content"
-	   android:layout_below="@+id/SquareWave"
+	   android:layout_width="55px"
+	   android:layout_height="55px"
+	   android:layout_toRightOf="@+id/SquareWave"
 	   android:adjustViewBounds="true"
-	   android:layout_marginTop="7dp"
-	   android:textOn="" android:textOff="">  			   	
+	   android:layout_marginLeft="10dp"
+	   android:textOn="" android:textOff=""
+	   android:layout_marginTop="38dp">  			   	
 	</ToggleButton>
     <ToggleButton android:id="@+id/TriangleWave"
 	   android:background="@drawable/wave2"
-	   android:layout_width="wrap_content"
-	   android:layout_height="wrap_content"
-	   android:layout_toRightOf="@+id/SquareWave"
+	   android:layout_width="55px"
+	   android:layout_height="55px"
+	   android:layout_toRightOf="@+id/SawWave"
 	   android:adjustViewBounds="true"
-	   android:layout_marginLeft="7dp"
+	   android:layout_marginLeft="10dp"
+	   android:layout_marginTop="38dp"
 	   android:textOn="" android:textOff="">  			   	
 	</ToggleButton>
 	<ToggleButton android:id="@+id/SineWave"
 	   android:background="@drawable/wave4"
-	   android:layout_width="wrap_content"
-	   android:layout_height="wrap_content"
-	   android:layout_toRightOf="@+id/SawWave"
+	   android:layout_width="55px"
+	   android:layout_height="55px"
+	   android:layout_toRightOf="@+id/TriangleWave"
 	   android:adjustViewBounds="true"
-	   android:layout_marginLeft="7dp"
-	   android:layout_marginTop="7dp"
-	   android:layout_below="@+id/TriangleWave"
+	   android:layout_marginLeft="10dp"
 	   android:checked="true"
-	   android:textOn="" android:textOff="">  			   	
+	   android:textOn="" android:textOff=""
+	   android:layout_marginTop="38dp">  			   	
 	</ToggleButton>
-     
-     <SeekBar 
-     	android:id="@+id/AttBar" 
-     	android:layout_width="150px"
-	 	android:layout_marginTop="20dp"
-	 	android:layout_marginLeft="20dp" 
-	 	android:layout_height="wrap_content"
-	 	android:layout_toRightOf="@+id/TriangleWave">
-	 </SeekBar>
-	 <SeekBar 
-	 	android:id="@+id/DecBar" 
-	 	android:layout_width="150px"
-	 	android:layout_marginTop="7dp"
-	 	android:layout_marginLeft="20dp" 
-	 	android:layout_height="wrap_content"
-	 	android:layout_below="@+id/AttBar"
-	 	android:layout_toRightOf="@+id/SineWave">
-	 </SeekBar>
 </RelativeLayout>
