@@ -20,6 +20,7 @@ import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
 
+import com.fifthrevision.sound.VolumeControl;
 import com.mobilelab.synth.SynthManager;
 
 public class MusicSynthesizer extends Activity implements OnTouchListener{
@@ -93,6 +94,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		setWaveListeners();
 
 		sm = new SynthManager();
+		sm.addVolumeControl(100);
 	}
 
 	@Override
@@ -367,12 +369,15 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		int actionCode = action & MotionEvent.ACTION_MASK;
 		// dumpEvent(event);
 		int id = 0;
+		int vol = 0;
 		float freq = 0f;
 
 		switch(actionCode) {
 		case MotionEvent.ACTION_DOWN:
 			id = event.getPointerId(0);
 			freq = this.calcFreqMappingFromY(event.getY(0));
+			vol = 20 + (int) (event.getX(0) * 80 / drawView.getWidth());
+			sm.setVolumeControl(vol);
 			sm.addSoundSource(id, freq);
 			break;
 		case MotionEvent.ACTION_POINTER_DOWN:
@@ -380,15 +385,20 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 			for(int i = 0; i < event.getPointerCount(); i++) {
 				if(event.getPointerId(i) == id) {
 					freq = this.calcFreqMappingFromY(event.getY(i));
+					vol = 20 + (int) (event.getX(i) * 80 / drawView.getWidth());					
 					break;
 				}
 			}
+			sm.setVolumeControl(vol);
 			sm.addSoundSource(id, freq);
 			break;
 		case MotionEvent.ACTION_MOVE:
 			for(int i = 0; i < event.getPointerCount(); i++) {
 				id = event.getPointerId(i);
 				freq = this.calcFreqMappingFromY(event.getY(i));
+				vol = 20 + (int) (event.getX(i) * 80 / drawView.getWidth());
+				Log.d("SOUND", "vol is " + vol);
+				sm.setVolumeControl(vol);
 				sm.setSoundSourceFreq(id, freq);
 			}
 			break;

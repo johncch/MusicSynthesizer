@@ -34,7 +34,6 @@ public class SynthManager {
 	}
 
 	public void setCurrentWaveShape(int waveShape) {
-		Log.d("Test", "Stufff");
 		if(waveShape >= SINE_WAVE && waveShape <= SAW_WAVE) {
 			this.currentWaveShape = waveShape;
 			this.setWave();
@@ -42,7 +41,7 @@ public class SynthManager {
 	}
 
 	public void setSoundSourceFreq(int id, float freq) {
-		Log.d(TAG, "Setting frequency " + freq);
+		// Log.d(TAG, "Setting frequency " + freq);
 		this.oscillators.get(id).setFreq(freq);
 	}
 
@@ -50,17 +49,17 @@ public class SynthManager {
 		if ( oscillators.size() < (id + 1) ) {
 			for(int i = oscillators.size(); i < (id + 1); i++){
 				oscillators.add(new Osc());
-				Log.d(TAG, "CREATED NEW OSCILLATOR");
+				// Log.d(TAG, "CREATED NEW OSCILLATOR");
 			}
-			Log.d(TAG, "FINISHED CREATING OSCILLATORS");
+			// Log.d(TAG, "FINISHED CREATING OSCILLATORS");
 			this.setWave();
-			Log.d(TAG, "SET WAVES!");
+			// Log.d(TAG, "SET WAVES!");
 		}
 		Osc osc = oscillators.get(id);
 		osc.setFreq(freq);
-		Log.d(TAG, "ADDING INTO RUNNER");
+		// Log.d(TAG, "ADDING INTO RUNNER");
 		runner.addOscillators(osc);
-		Log.d(TAG, "AFTER ADDING INTO RUNNER");
+		// Log.d(TAG, "AFTER ADDING INTO RUNNER");
 	}
 
 	public void removeSoundSource(int id) {
@@ -95,7 +94,7 @@ public class SynthManager {
 			freqmod = new Osc();
 			freqmod.fillWithSin();
 		}
-		Log.d("STUFF", "adding freq mod " + freq);
+		// Log.d("STUFF", "adding freq mod " + freq);
 		freqmod.setFreq(freq);
 		runner.addInputWaveOsc(freqmod);
 	}
@@ -160,7 +159,9 @@ public class SynthManager {
 	}
 	
 	public void setVolumeControl(int level) {
-		volControl.setVolume(level);
+		if(volControl != null) {
+			volControl.setVolume(level);
+		}
 	}
 	
 	public void removeVolumeControl() {
@@ -276,7 +277,7 @@ class SynthesizerRunner implements Runnable {
 
 				synchronized(this) {
 					if(inputWaveOsc != null) {
-						Log.d("RENDER", "render");
+						// Log.d("RENDER", "render");
 						inputWaveOsc.render(inputBuffer);
 					}
 					

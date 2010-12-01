@@ -1,5 +1,7 @@
 package com.fifthrevision.sound;
 
+import android.util.Log;
+
 public class VolumeControl extends Unit {
 
 	public static int MAX = 100;
@@ -14,6 +16,7 @@ public class VolumeControl extends Unit {
 			volume = MAX;
 		}
 		multiplier = ((float) volume) / MAX;
+	// 	Log.d("TEST", "test " + multiplier);
 		return this;
 	}
 
@@ -22,6 +25,8 @@ public class VolumeControl extends Unit {
 		for(int i = 0; i < buffer.length; i++) {
 			buffer[i] *= multiplier;
 		}
+//		Log.d("TEST", "" + buffer[0]);
+
 		return this;
 	}
 
