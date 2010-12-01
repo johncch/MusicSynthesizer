@@ -35,13 +35,14 @@ public class Osc extends Unit {
 	}
 	
 	public Unit render(final float[] buffer) {
+		StringBuffer s = new StringBuffer();
 		for(int i = 0; i < CHUNK_SIZE; i++) {
 			float scaled = phase * ENTRIES;
 			final float fraction = scaled-(int)scaled;
 			final int index = (int)scaled;
 			buffer[i] += (1.0f-fraction) * table[index&MASK] + fraction * table[(index+1)&MASK];
-			phase = (phase + cyclesPerSample) - (int)phase + ((inputWave != null) ? inputWave[i] * 0.5f : 0);
-		}	
+			phase = (phase + cyclesPerSample + ((inputWave != null) ? inputWave[i] * 0.05f : 0)) - (int)phase;
+		}
 		return this;
 	}
 	

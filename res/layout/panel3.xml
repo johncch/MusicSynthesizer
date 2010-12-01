@@ -27,6 +27,7 @@
 	 	android:layout_height="wrap_content"
 	 	android:layout_marginLeft="20dp" 
 	 	android:layout_marginTop="12dp"
+	 	android:max = "440"
 	 	android:layout_toRightOf="@+id/HighPass">
 	 </SeekBar>
 	 <SeekBar 
@@ -36,6 +37,7 @@
 	 	android:layout_marginLeft="20dp" 
 	 	android:layout_height="wrap_content"
 	 	android:layout_below="@+id/HighFreqBar"
+	 	android:max = "880"
 	 	android:layout_toRightOf="@+id/LowPass">
 	 </SeekBar>
 </RelativeLayout>

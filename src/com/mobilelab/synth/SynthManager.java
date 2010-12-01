@@ -12,6 +12,7 @@ import com.fifthrevision.sound.HighPassSP;
 import com.fifthrevision.sound.LowPassFS;
 import com.fifthrevision.sound.Osc;
 import com.fifthrevision.sound.Unit;
+import com.fifthrevision.sound.VolumeControl;
 
 public class SynthManager {
 
@@ -45,7 +46,7 @@ public class SynthManager {
 		this.oscillators.get(id).setFreq(freq);
 	}
 
-	public void addSoundSource(int id) {
+	public void addSoundSource(int id, float freq) {
 		if ( oscillators.size() < (id + 1) ) {
 			for(int i = oscillators.size(); i < (id + 1); i++){
 				oscillators.add(new Osc());
@@ -56,6 +57,7 @@ public class SynthManager {
 			Log.d(TAG, "SET WAVES!");
 		}
 		Osc osc = oscillators.get(id);
+		osc.setFreq(freq);
 		Log.d(TAG, "ADDING INTO RUNNER");
 		runner.addOscillators(osc);
 		Log.d(TAG, "AFTER ADDING INTO RUNNER");
@@ -81,7 +83,9 @@ public class SynthManager {
 	}
 	
 	public void setAmpModFreq(float freq){
-		ampmod.setFreq(freq);
+		if(ampmod != null) {
+			ampmod.setFreq(freq);
+		}
 	}
 	
 	private Osc freqmod;
@@ -89,7 +93,9 @@ public class SynthManager {
 	public void addFreqMod(float freq) {
 		if(this.freqmod == null) {
 			freqmod = new Osc();
+			freqmod.fillWithSin();
 		}
+		Log.d("STUFF", "adding freq mod " + freq);
 		freqmod.setFreq(freq);
 		runner.addInputWaveOsc(freqmod);
 	}
@@ -99,12 +105,14 @@ public class SynthManager {
 	}
 	
 	public void setFreqModFreq(float freq) {
-		freqmod.setFreq(freq);
+		if(freqmod != null) {
+			freqmod.setFreq(freq);
+		}
 	}
 	
 	private LowPassFS lowpassfilter;
 	
-	public void setLowPass(float freq) {
+	public void addLowPass(float freq) {
 		if(this.lowpassfilter == null) {
 			lowpassfilter = new LowPassFS();
 		}
@@ -117,12 +125,14 @@ public class SynthManager {
 	}
 
 	public void setLowPassCutoff(float freq) {
-		lowpassfilter.setFreq(freq);
+		if(lowpassfilter != null) {
+			lowpassfilter.setFreq(freq);
+		}
 	}
 	
 	private HighPassSP highpassfilter;
 	
-	public void setHighPass(float freq) {
+	public void addHighPass(float freq) {
 		if(highpassfilter == null) {
 			highpassfilter = new HighPassSP();
 		}
@@ -135,7 +145,26 @@ public class SynthManager {
 	}
 	
 	public void setHighPassCutoff(float freq) {
-		highpassfilter.setFreq(freq);
+		if(highpassfilter != null) {
+			highpassfilter.setFreq(freq);
+		}
+	}
+	
+	private VolumeControl volControl;
+	
+	public void addVolumeControl(int level) {
+		if(volControl == null) {
+			volControl = new VolumeControl();
+		} 
+		runner.addPipeline(volControl.setVolume(level));
+	}
+	
+	public void setVolumeControl(int level) {
+		volControl.setVolume(level);
+	}
+	
+	public void removeVolumeControl() {
+		runner.removePipeline(volControl);
 	}
 	
 	private void setWave() {
@@ -247,8 +276,16 @@ class SynthesizerRunner implements Runnable {
 
 				synchronized(this) {
 					if(inputWaveOsc != null) {
+						Log.d("RENDER", "render");
 						inputWaveOsc.render(inputBuffer);
 					}
+					
+					/* StringBuffer s = new StringBuffer();
+					for(int i = 0; i < inputBuffer.length; i++) {
+						s.append(inputBuffer[i]);
+						s.append(",");
+					}
+					Log.d("TEST2", s.toString());*/
 
 					for(int i = 0; i < oscillators.size(); i++) {
 						oscillators.get(i).setInputWave(inputBuffer).render(localBuffer);
@@ -261,7 +298,7 @@ class SynthesizerRunner implements Runnable {
 
 				for(int i = 0; i < Unit.CHUNK_SIZE; i++) {
 					// target[i] = (short)(32768.0f*localBuffer[i]);
-					float scaledDownMagnitude = 32768.0f / oscillators.size();
+					float scaledDownMagnitude = 32764.0f / oscillators.size();
 					target[i] = (short)(scaledDownMagnitude * localBuffer[i]);
 				}
 

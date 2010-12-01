@@ -26,7 +26,8 @@
 			android:background="@drawable/config1" 
 			android:textOn="" android:textOff=""
 			android:layout_marginTop="3dp" 
-			android:adjustViewBounds="true">
+			android:adjustViewBounds="true"
+			android:checked="true">
 		</ToggleButton>
 		<ToggleButton android:id="@+id/panel2B"
 			android:layout_width="45px"

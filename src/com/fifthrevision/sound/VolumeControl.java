@@ -7,13 +7,14 @@ public class VolumeControl extends Unit {
 	
 	public float multiplier;
 	
-	public void setVolume(int volume) {
+	public Unit setVolume(int volume) {
 		if(volume < MIN) {
 			volume = MIN;
 		} else if (volume > MAX) {
 			volume = MAX;
 		}
 		multiplier = ((float) volume) / MAX;
+		return this;
 	}
 
 	@Override

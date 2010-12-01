@@ -32,15 +32,20 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 	private SynthManager sm;
 
 	/*flipper buttons*/
-	ToggleButton panel1Btn; 
-	ToggleButton panel2Btn; 
-	ToggleButton panel3Btn;
+	private ToggleButton panel1Btn; 
+	private ToggleButton panel2Btn; 
+	private ToggleButton panel3Btn;
 
 	/*lfo buttons*/
 	private ToggleButton lfo1Btn;
 	private ToggleButton lfo2Btn;
 	private SeekBar lfo1SeekBar;
 	private SeekBar lfo2SeekBar;
+
+	private ToggleButton lpBtn;
+	private ToggleButton hpBtn;
+	private SeekBar lpSeekBar;
+	private SeekBar hpSeekBar;
 
 	/*oscillator wave buttons*/
 	private ToggleButton sqrBtn;
@@ -58,8 +63,8 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		drawView = (DrawView) findViewById(R.id.XYPad);
 
 		drawView.setOnTouchListener(this);
-		
-		
+
+
 		/*initialize panels buttons and set listeners*/
 		panel1Btn = (ToggleButton) findViewById(R.id.panel1B);
 		panel2Btn = (ToggleButton) findViewById(R.id.panel2B);
@@ -74,31 +79,37 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		lfo2SeekBar = (SeekBar) this.findViewById(R.id.LFO2Bar);
 		initLFOListeners();
 
+		lpBtn = (ToggleButton) this.findViewById(R.id.LowPass);
+		hpBtn = (ToggleButton) this.findViewById(R.id.HighPass);
+		lpSeekBar = (SeekBar) this.findViewById(R.id.LowFreqBar);
+		hpSeekBar = (SeekBar) this.findViewById(R.id.HighFreqBar);
+		initFilterListeners();
+
 		/*initialize oscillator wave buttons and set listeners*/
 		sqrBtn = (ToggleButton) this.findViewById(R.id.SquareWave);
 		triBtn = (ToggleButton) this.findViewById(R.id.TriangleWave);
 		sawBtn = (ToggleButton) this.findViewById(R.id.SawWave);
 		sinBtn = (ToggleButton) this.findViewById(R.id.SineWave);    
 		setWaveListeners();
-		 
+
 		sm = new SynthManager();
 	}
-	
+
 	@Override
-    public boolean onOptionsItemSelected(MenuItem item){
+	public boolean onOptionsItemSelected(MenuItem item){
 		super.onOptionsItemSelected(item);
 		Intent intent = new Intent(MusicSynthesizer.this, About.class);  //intent to about activity
 		startActivity(intent);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		super.onCreateOptionsMenu(menu);
 		menu.add(0, Menu.FIRST, Menu.NONE, "About"); //create menu button
 		return true;
 	}
-	
+
 	private void setPanelListeners(){
 		/* if button1 is pressed, display 1st panel*/
 		panel1Btn.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +117,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				panel2Btn.setChecked(false);
 				panel3Btn.setChecked(false);
 				panel1Btn.setChecked(true);
-				
+
 				if (flipper.getDisplayedChild() != 0){
 					flipper.setInAnimation(inFromRightAnimation());
 					// flipper.setOutAnimation(outToRightAnimation());
@@ -121,7 +132,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				panel1Btn.setChecked(false);
 				panel3Btn.setChecked(false);
 				panel2Btn.setChecked(true);
-				
+
 				/*only do animation if panel isn't currently displayed*/
 				if (flipper.getDisplayedChild() != 1){
 					flipper.setInAnimation(inFromRightAnimation());
@@ -137,7 +148,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				panel1Btn.setChecked(false);
 				panel2Btn.setChecked(false);
 				panel3Btn.setChecked(true);
-				
+
 				/*only do animation if panel isn't currently displayed*/
 				if (flipper.getDisplayedChild() != 2){
 					flipper.setInAnimation(inFromRightAnimation());
@@ -188,27 +199,82 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 
 			}
 		});
-		
+
 		lfo2SeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			
+
 			@Override
 			public void onStopTrackingTouch(SeekBar arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onStartTrackingTouch(SeekBar arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+				Log.d("TESSST", "p = " + (10 + progress));
 				sm.setFreqModFreq(10 + progress);
 			}
 		});
 
+	}
+
+	private void initFilterListeners() {
+		hpBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if(hpBtn.isChecked()) {
+					sm.addHighPass(440 + hpSeekBar.getProgress());
+				} else {
+					sm.removeHighPass();
+				}
+			}
+		});
+
+		lpBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if(lpBtn.isChecked()) {
+					sm.addLowPass(880 + lpSeekBar.getProgress());
+				} else {
+					sm.removeLowPass();
+				}
+			}
+		});
+
+		hpSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar arg0) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar arg0) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+				sm.setHighPassCutoff(440 + progress);
+			}
+		});
+
+		lpSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar arg0) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar arg0) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+				sm.setLowPassCutoff(880 + progress);
+			}
+		});
 	}
 
 	private void setWaveListeners(){
@@ -266,7 +332,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		});
 	}
 
-	
+
 
 	/*** inFromRightAnimation
 	 *   Animation for panels to "slide in" from the right when their button is pressed
@@ -300,22 +366,28 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		int actionCode = action & MotionEvent.ACTION_MASK;
 		// dumpEvent(event);
 		int id = 0;
+		float freq = 0f;
 
 		switch(actionCode) {
 		case MotionEvent.ACTION_DOWN:
 			id = event.getPointerId(0);
-			sm.addSoundSource(id);
+			freq = this.calcFreqMappingFromY(event.getY(0));
+			sm.addSoundSource(id, freq);
 			break;
 		case MotionEvent.ACTION_POINTER_DOWN:
 			id = action >> MotionEvent.ACTION_POINTER_ID_SHIFT;
-			Log.d(Tag, "Adding Pointer " + id);
-			sm.addSoundSource(id);
+			for(int i = 0; i < event.getPointerCount(); i++) {
+				if(event.getPointerId(i) == id) {
+					freq = this.calcFreqMappingFromY(event.getY(i));
+					break;
+				}
+			}
+			sm.addSoundSource(id, freq);
 			break;
 		case MotionEvent.ACTION_MOVE:
-			Log.d(Tag, "Action Move");
 			for(int i = 0; i < event.getPointerCount(); i++) {
 				id = event.getPointerId(i);
-				float freq = 400 + event.getY(i) * 4;
+				freq = this.calcFreqMappingFromY(event.getY(i));
 				sm.setSoundSourceFreq(id, freq);
 			}
 			break;
@@ -330,6 +402,19 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		}
 
 		return true;
+	}
+
+	private float calcFreqMappingFromY(float y) {
+		int xyHeight = drawView.getHeight();
+		float freq;
+		if(y == xyHeight) {
+			freq = 880f;
+		} else if(y < xyHeight / 2) {
+			freq = 440 + (440 * (y / (xyHeight / 2)));
+		} else {
+			freq = 880 + (880 * ((y - xyHeight / 2) / (xyHeight / 2)));
+		}
+		return freq;
 	}
 
 	/*	//@Override
