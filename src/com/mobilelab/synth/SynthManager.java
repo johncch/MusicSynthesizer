@@ -86,7 +86,7 @@ public class SynthManager {
 	
 	private Osc freqmod;
 	
-	public void setFreqMod(float freq) {
+	public void addFreqMod(float freq) {
 		if(this.freqmod == null) {
 			freqmod = new Osc();
 		}

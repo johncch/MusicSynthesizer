@@ -152,7 +152,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
             }
         });*/
 	}
-	
+
 	private void initLFOListeners() {
 		lfo1Btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -163,17 +163,17 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				}
 			}
 		});
-		
+
 		lfo2Btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if(lfo2Btn.isChecked()) {
-					
+					sm.addFreqMod(10 + lfo2SeekBar.getProgress());
 				} else {
-					
+					sm.removeFreqMod();
 				}
 			}
 		});
-		
+
 		lfo1SeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
@@ -183,26 +183,46 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 			@Override
 			public void onStartTrackingTouch(SeekBar arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		
+		lfo2SeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+				sm.setFreqModFreq(10 + progress);
+			}
+		});
+
 	}
 
 	private void setWaveListeners(){
 		sqrBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Log.d("TEST", "TESTTT");
 				/*make them behave as radio buttons*/
 				triBtn.setChecked(false);
 				sawBtn.setChecked(false);
 				sinBtn.setChecked(false);
+				sqrBtn.setChecked(true);
 
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.SQUARE_WAVE);
@@ -215,6 +235,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				sqrBtn.setChecked(false);
 				sawBtn.setChecked(false);
 				sinBtn.setChecked(false);
+				triBtn.setChecked(true);
 
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.TRIANGLE_WAVE);
@@ -228,6 +249,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				sqrBtn.setChecked(false);
 				triBtn.setChecked(false);
 				sinBtn.setChecked(false);
+				sawBtn.setChecked(true);
 
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.SAW_WAVE);
@@ -241,6 +263,7 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 				triBtn.setChecked(false);
 				sawBtn.setChecked(false);
 				sqrBtn.setChecked(false);
+				sinBtn.setChecked(true);
 
 				/*set wave*/
 				sm.setCurrentWaveShape(SynthManager.SINE_WAVE);
@@ -252,13 +275,10 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 		lfoSqrBtn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				/*make them behave as radio buttons*/
-				if (lfoSqrBtn.isChecked()){
-					lfoTriBtn.setChecked(false);
-					lfoSawBtn.setChecked(false);
-					lfoSinBtn.setChecked(false);
-				}
-				else
-					lfoSqrBtn.setChecked(true);
+				lfoTriBtn.setChecked(false);
+				lfoSawBtn.setChecked(false);
+				lfoSinBtn.setChecked(false);
+				lfoSqrBtn.setChecked(true);
 
 				/*TODO: set wave*/
 			}
@@ -283,13 +303,10 @@ public class MusicSynthesizer extends Activity implements OnTouchListener{
 
 			public void onClick(View v) {
 				/*make them behave as radio buttons*/
-				if (lfoSawBtn.isChecked()){
-					lfoSqrBtn.setChecked(false);
-					lfoTriBtn.setChecked(false);
-					lfoSinBtn.setChecked(false);
-				}
-				else
-					lfoSawBtn.setChecked(true);
+				lfoSqrBtn.setChecked(false);
+				lfoTriBtn.setChecked(false);
+				lfoSinBtn.setChecked(false);
+				lfoSawBtn.setChecked(true);
 
 				/*TODO: set wave*/
 			}
